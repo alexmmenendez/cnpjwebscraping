@@ -1,4 +1,10 @@
 package br.com.cnpjwebscraping.repository;
 
-public class HistoricoEmpresaRepository {
+import br.com.cnpjwebscraping.domain.Consulta;
+import br.com.cnpjwebscraping.domain.HistoricoEmpresa;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface HistoricoEmpresaRepository extends JpaRepository<HistoricoEmpresa, Long> {
 }
