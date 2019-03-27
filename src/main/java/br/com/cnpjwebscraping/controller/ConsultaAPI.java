@@ -46,16 +46,12 @@ public class ConsultaAPI {
             return new ResponseEntity<>(new ResponseErrorOutput(ResponseError.PARAMETER_MISSING, bindingResult), HttpStatus.BAD_REQUEST);
         }
 
-        Cidade cidade = cidadeService.buscarPelaUrl(consultaInputWrapper.getEmpresa().getUrlCidade());
-
         String cnpj = FormatadorString.removePontuacao((consultaInputWrapper.getEmpresa().getCnpj()));
 
         Empresa empresa = empresaService.buscarPorCNPJ(cnpj);
 
         if (empresa == null) {
             empresa.setCnpj(cnpj);
-
-            empresa.setCidade(cidade);
 
             try {
                 empresa = empresaService.salvar(empresa);

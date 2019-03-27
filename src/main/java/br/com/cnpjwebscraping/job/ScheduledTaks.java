@@ -2,8 +2,10 @@ package br.com.cnpjwebscraping.job;
 
 import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.domain.Empresa;
+import br.com.cnpjwebscraping.domain.HistoricoEmpresa;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import br.com.cnpjwebscraping.service.domain.ConsultaService;
+import br.com.cnpjwebscraping.service.domain.EmpresaService;
 import br.com.cnpjwebscraping.service.worker.CNPJServiceWorker;
 import br.com.cnpjwebscraping.service.worker.ServiceWorkerResponse;
 import org.jsoup.nodes.Document;
@@ -22,6 +24,9 @@ public class ScheduledTaks {
 
     @Autowired
     private ConsultaService consultaService;
+
+    @Autowired
+    private EmpresaService empresaService;
 
     @Autowired
     private CNPJServiceWorker cnpjServiceWorker;
@@ -47,6 +52,8 @@ public class ScheduledTaks {
 
                 Empresa empresa = setDados(document);
 
+                empresa = empresaService.salvar(empresa);
+
                 consulta.setEmpresa(empresa);
 
                 consulta.setDataFinalizacao(new Date());
@@ -55,7 +62,6 @@ public class ScheduledTaks {
 
                 consultaService.salvar(consulta);
             } catch (Exception e) {
-
                 e.printStackTrace();
 
                 consulta.setDataFinalizacao(new Date());
@@ -64,11 +70,8 @@ public class ScheduledTaks {
 
                 consultaService.salvar(consulta);
             }
-
         }
-
     }
-
 
     private Empresa setDados(Document document) throws ParseException {
 

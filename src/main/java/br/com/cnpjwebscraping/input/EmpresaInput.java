@@ -7,7 +7,6 @@ public class EmpresaInput {
 	@NotBlank
 	private String cnpj;
 
-	@NotBlank
 	private String urlCidade;
 
 	public String getCnpj() {

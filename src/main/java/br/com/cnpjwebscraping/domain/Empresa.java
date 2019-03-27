@@ -66,7 +66,7 @@ public class Empresa {
     private String bairro;
 
     @JoinColumn(name = "CIDADE_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_EMPRESA_CIDADE"))
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Cidade cidade;
 
     @Column(name = "ENDERECO_ELETRONICO")
