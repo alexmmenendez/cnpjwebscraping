@@ -1,6 +1,7 @@
 package br.com.cnpjwebscraping.input.wrapper;
 
 
+import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.input.EmpresaInput;
 
 import javax.validation.Valid;
@@ -8,20 +9,20 @@ import javax.validation.Valid;
 public class ConsultaInputWrapper {
 
 	@Valid
-	private EmpresaInput empresaInput;
+	private EmpresaInput empresa;
 
-	public EmpresaInput getEmpresaInput() {
-		return empresaInput;
+	public EmpresaInput getEmpresa() {
+		return empresa;
 	}
 
-	public void setEmpresaInput(EmpresaInput empresaInput) {
-		this.empresaInput = empresaInput;
+	public void setEmpresa(EmpresaInput empresa) {
+		this.empresa = empresa;
 	}
 
 	@Override
 	public String toString() {
 		return "ConsultaInputWrapper{" +
-				"empresaInput=" + empresaInput +
+				"empresa=" + empresa +
 				'}';
 	}
 }

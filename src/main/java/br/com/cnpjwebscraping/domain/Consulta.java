@@ -4,6 +4,7 @@ import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "CONSULTA")
@@ -14,6 +15,9 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "empresaSequence")
     @Column(name = "ID")
     private Long id;
+
+    @Column(name = "TICKET")
+    private UUID ticket = UUID.randomUUID();
 
     @Column(name = "DATA_CRIACAO")
     private Date dataAbertura;
@@ -67,5 +71,13 @@ public class Consulta {
 
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
+    }
+
+    public UUID getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(UUID ticket) {
+        this.ticket = ticket;
     }
 }

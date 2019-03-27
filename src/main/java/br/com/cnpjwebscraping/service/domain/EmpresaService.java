@@ -9,10 +9,15 @@ import org.springframework.stereotype.Service;
 public class EmpresaService {
 
     @Autowired
-    private EmpresaRepository EmpresaRepository;
+    private EmpresaRepository empresaRepository;
 
-    public Empresa salvar (Empresa empresa) {
-        return EmpresaRepository.save(empresa);
+    public Empresa salvar(Empresa empresa) {
+        return empresaRepository.save(empresa);
     }
+
+    public Empresa buscarPorCNPJ(String CNPJ) {
+        return empresaRepository.findOneByCnpj(CNPJ);
+    }
+
 
 }

@@ -39,7 +39,7 @@ public class Lab {
 
 		Map<String, String> data = new HashMap<>();
 		data.put("origem", "comprovante");
-		data.put("cnpj", "62232889001838");
+		data.put("cnpj", "07526557006302");
 		data.put("g-recaptcha-response", recaptcha);
 		data.put("submit1", "Consultar");
 		data.put("search_type", "cnpj");
@@ -80,7 +80,6 @@ public class Lab {
 
 		return document;
 	}
-
 
 	private static Empresa setDados(Document document) {
 		Empresa empresa = new Empresa();
