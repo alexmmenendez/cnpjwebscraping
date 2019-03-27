@@ -32,7 +32,7 @@ public class Anticaptcha implements CaptchaSolver {
 		 */
 		NoCaptchaProxyless api = new NoCaptchaProxyless();
 		try {
-			api.setClientKey(clientKey);
+			api.setClientKey("15964fe80bc754e7427e12dbb92c900b");
 			api.setWebsiteUrl(new URL(reCaptchaRequest.getPageUrl()));
 			api.setWebsiteKey(reCaptchaRequest.getGoogleKey());
 			

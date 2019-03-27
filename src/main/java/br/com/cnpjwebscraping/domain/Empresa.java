@@ -14,7 +14,7 @@ public class Empresa {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "CNPJ")
+    @Column(name = "CNPJ", unique = true)
     private String cnpj;
 
     @Column(name = "RAZAO_SOCIAL")
@@ -263,5 +263,34 @@ public class Empresa {
 
     public void setSituacaoEspecial(String situacaoEspecial) {
         this.situacaoEspecial = situacaoEspecial;
+    }
+
+    @Override
+    public String toString() {
+        return "Empresa{" +
+                "id=" + id +
+                ", cnpj='" + cnpj + '\'' +
+                ", razaoSocial='" + razaoSocial + '\'' +
+                ", nomeFantasia='" + nomeFantasia + '\'' +
+                ", dataAbertura=" + dataAbertura +
+                ", dataSituacaoCadastral=" + dataSituacaoCadastral +
+                ", dataSituacaoEspecial=" + dataSituacaoEspecial +
+                ", situacaoCadastral='" + situacaoCadastral + '\'' +
+                ", porte='" + porte + '\'' +
+                ", parentesco='" + parentesco + '\'' +
+                ", atividadeEconomicaPrincipal='" + atividadeEconomicaPrincipal + '\'' +
+                ", atividadeEconomicaSecundaria='" + atividadeEconomicaSecundaria + '\'' +
+                ", naturezaJuridica='" + naturezaJuridica + '\'' +
+                ", logradouro='" + logradouro + '\'' +
+                ", numeroLogradouro='" + numeroLogradouro + '\'' +
+                ", complementoLogradouro='" + complementoLogradouro + '\'' +
+                ", cep='" + cep + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", cidade=" + cidade +
+                ", enderecoEletronico='" + enderecoEletronico + '\'' +
+                ", efr='" + efr + '\'' +
+                ", motivoSituacaoCadastral='" + motivoSituacaoCadastral + '\'' +
+                ", situacaoEspecial='" + situacaoEspecial + '\'' +
+                '}';
     }
 }
