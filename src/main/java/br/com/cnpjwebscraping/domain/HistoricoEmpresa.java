@@ -81,7 +81,39 @@ public class HistoricoEmpresa {
     @Column(name = "SITUACAO_ESPECIAL")
     private String situacaoEspecial;
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "historico")
+    private Consulta consulta;
+
+    public HistoricoEmpresa() {
+
+    }
+
     public HistoricoEmpresa(Empresa empresa) {
+        this.dataHistorico = new Date();
+        this.empresa = empresa;
+        this.atividadeEconomicaPrincipal = empresa.getAtividadeEconomicaPrincipal();
+        this.atividadeEconomicaSecundaria = empresa.getAtividadeEconomicaSecundaria();
+        this.bairro = empresa.getBairro();
+        this.cep = empresa.getCep();
+        this.cidade = empresa.getCidade();
+        this.complementoLogradouro = empresa.getComplementoLogradouro();
+        this.dataSituacaoCadastral = empresa.getDataSituacaoCadastral();
+        this.dataSituacaoEspecial = empresa.getDataSituacaoEspecial();
+        this.efr = empresa.getEfr();
+        this.enderecoEletronico = empresa.getEnderecoEletronico();
+        this.logradouro = empresa.getLogradouro();
+        this.motivoSituacaoCadastral = empresa.getMotivoSituacaoCadastral();
+        this.naturezaJuridica = empresa.getNaturezaJuridica();
+        this.nomeFantasia = empresa.getNomeFantasia();
+        this.numeroLogradouro = empresa.getNumeroLogradouro();
+        this.parentesco = empresa.getParentesco();
+        this.porte = empresa.getPorte();
+        this.razaoSocial = empresa.getRazaoSocial();
+        this.situacaoCadastral = empresa.getSituacaoCadastral();
+        this.situacaoEspecial = empresa.getSituacaoEspecial();
+    }
+
+    public void setDados(Empresa empresa) {
         this.dataHistorico = new Date();
         this.empresa = empresa;
         this.atividadeEconomicaPrincipal = empresa.getAtividadeEconomicaPrincipal();
@@ -106,6 +138,7 @@ public class HistoricoEmpresa {
         this.situacaoEspecial = empresa.getSituacaoEspecial();
 
     }
+
 
     public Long getId() {
         return id;
@@ -290,5 +323,13 @@ public class HistoricoEmpresa {
 
     public void setDataHistorico(Date dataHistorico) {
         this.dataHistorico = dataHistorico;
+    }
+
+    public Consulta getConsulta() {
+        return consulta;
+    }
+
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
     }
 }

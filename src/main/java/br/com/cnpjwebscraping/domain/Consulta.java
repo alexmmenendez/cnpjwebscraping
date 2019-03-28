@@ -11,8 +11,8 @@ import java.util.UUID;
 public class Consulta {
 
     @Id
-    @SequenceGenerator(name = "empresaSequence", sequenceName = "EMPRESA_SEQUENCE")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "empresaSequence")
+    @SequenceGenerator(name = "consultaSequence", sequenceName = "CONSULTA_SEQUENCE")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "consultaSequence")
     @Column(name = "ID")
     private Long id;
 
@@ -29,9 +29,9 @@ public class Consulta {
     @Column(name = "STATUS")
     private ConsultaStatus status;
 
-    @JoinColumn(name = "EMPRESA_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONSULTA_EMPRESA"))
-    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private Empresa empresa;
+    @JoinColumn(name = "HISTORICO_EMPRESA_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONSULTA_HISTORICO_EMPRESA"))
+    @OneToOne(fetch = FetchType.EAGER)
+    private HistoricoEmpresa historico;
 
     public Long getId() {
         return id;
@@ -65,19 +65,19 @@ public class Consulta {
         this.status = status;
     }
 
-    public Empresa getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
-    }
-
     public UUID getTicket() {
         return ticket;
     }
 
     public void setTicket(UUID ticket) {
         this.ticket = ticket;
+    }
+
+    public HistoricoEmpresa getHistorico() {
+        return historico;
+    }
+
+    public void setHistorico(HistoricoEmpresa historico) {
+        this.historico = historico;
     }
 }

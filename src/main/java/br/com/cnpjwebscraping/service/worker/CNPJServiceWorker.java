@@ -37,7 +37,7 @@ public class CNPJServiceWorker implements ServiceWorker {
 
         Map<String, String> data = new HashMap<>();
         data.put("origem", "comprovante");
-        data.put("cnpj", consulta.getEmpresa().getCnpj());
+        data.put("cnpj", consulta.getHistorico().getEmpresa().getCnpj());
         data.put("g-recaptcha-response", recaptcha);
         data.put("submit1", "Consultar");
         data.put("search_type", "cnpj");

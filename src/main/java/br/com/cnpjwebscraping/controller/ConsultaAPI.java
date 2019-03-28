@@ -3,6 +3,7 @@ package br.com.cnpjwebscraping.controller;
 import br.com.cnpjwebscraping.domain.Cidade;
 import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.domain.Empresa;
+import br.com.cnpjwebscraping.domain.HistoricoEmpresa;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import br.com.cnpjwebscraping.hardcoded.ResponseError;
 import br.com.cnpjwebscraping.input.wrapper.ConsultaInputWrapper;
@@ -11,6 +12,7 @@ import br.com.cnpjwebscraping.output.wrapper.ConsultaOutputWrapper;
 import br.com.cnpjwebscraping.service.domain.CidadeService;
 import br.com.cnpjwebscraping.service.domain.ConsultaService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
+import br.com.cnpjwebscraping.service.domain.HistoricoEmpresaService;
 import br.com.cnpjwebscraping.util.FormatadorString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,6 +38,9 @@ public class ConsultaAPI {
     private ConsultaService consultaService;
 
     @Autowired
+    private HistoricoEmpresaService historicoEmpresaService;
+
+    @Autowired
     private CidadeService cidadeService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -50,21 +55,31 @@ public class ConsultaAPI {
 
         Empresa empresa = empresaService.buscarPorCNPJ(cnpj);
 
+        HistoricoEmpresa historicoEmpresa;
+
         if (empresa == null) {
+
+            empresa = new Empresa();
+
             empresa.setCnpj(cnpj);
 
-            try {
-                empresa = empresaService.salvar(empresa);
-            } catch (DataIntegrityViolationException e) {
-                e.printStackTrace();
-            }
+            empresa = empresaService.salvar(empresa);
+
+            historicoEmpresa = new HistoricoEmpresa(empresa);
+
+            historicoEmpresa = historicoEmpresaService.salvar(historicoEmpresa);
+
+        } else {
+            historicoEmpresa = new HistoricoEmpresa(empresa);
+
+            historicoEmpresa = historicoEmpresaService.salvar(historicoEmpresa);
         }
 
         Consulta consulta = new Consulta();
 
         consulta.setDataAbertura(new Date());
         consulta.setStatus(ConsultaStatus.NOVA);
-        consulta.setEmpresa(empresa);
+        consulta.setHistorico(historicoEmpresa);
 
         consulta = consultaService.salvar(consulta);
 

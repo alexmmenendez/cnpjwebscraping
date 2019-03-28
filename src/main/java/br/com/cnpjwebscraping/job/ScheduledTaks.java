@@ -6,6 +6,7 @@ import br.com.cnpjwebscraping.domain.HistoricoEmpresa;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import br.com.cnpjwebscraping.service.domain.ConsultaService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
+import br.com.cnpjwebscraping.service.domain.HistoricoEmpresaService;
 import br.com.cnpjwebscraping.service.worker.CNPJServiceWorker;
 import br.com.cnpjwebscraping.service.worker.ServiceWorkerResponse;
 import org.jsoup.nodes.Document;
@@ -29,6 +30,9 @@ public class ScheduledTaks {
     private EmpresaService empresaService;
 
     @Autowired
+    private HistoricoEmpresaService historicoEmpresaService;
+
+    @Autowired
     private CNPJServiceWorker cnpjServiceWorker;
 
     @Scheduled(cron = "0 0/2 * * * ?")
@@ -44,17 +48,27 @@ public class ScheduledTaks {
             consulta.setStatus(ConsultaStatus.PROCESSANDO);
 
             consulta = consultaService.salvar(consulta);
+        }
 
+        for (Consulta consulta : consultas) {
             try {
                 serviceWorkerResponse = cnpjServiceWorker.consultar(consulta);
 
                 Document document = serviceWorkerResponse.getDocument();
 
-                Empresa empresa = setDados(document);
+                HistoricoEmpresa historicoEmpresa = consulta.getHistorico();
+
+                Empresa empresa = historicoEmpresa.getEmpresa();
+
+                empresa = setDados(empresa, document);
 
                 empresa = empresaService.salvar(empresa);
 
-                consulta.setEmpresa(empresa);
+                historicoEmpresa.setDados(empresa);
+
+                historicoEmpresa = historicoEmpresaService.salvar(historicoEmpresa);
+
+                consulta.setHistorico(historicoEmpresa);
 
                 consulta.setDataFinalizacao(new Date());
 
@@ -71,13 +85,12 @@ public class ScheduledTaks {
                 consultaService.salvar(consulta);
             }
         }
+
     }
 
-    private Empresa setDados(Document document) throws ParseException {
+    private Empresa setDados(Empresa empresa, Document document) throws ParseException {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-        Empresa empresa = new Empresa();
 
         Elements elements = document.select("b");
 
