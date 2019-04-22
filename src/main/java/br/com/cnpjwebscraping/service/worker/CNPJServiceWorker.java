@@ -2,18 +2,14 @@ package br.com.cnpjwebscraping.service.worker;
 
 
 import br.com.cnpjwebscraping.domain.Consulta;
-import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.util.TrustUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +33,7 @@ public class CNPJServiceWorker implements ServiceWorker {
 
         Map<String, String> data = new HashMap<>();
         data.put("origem", "comprovante");
-        data.put("cnpj", consulta.getHistorico().getEmpresa().getCnpj());
+        data.put("cnpj", consulta.getScraping().getEmpresa().getCnpj());
         data.put("g-recaptcha-response", recaptcha);
         data.put("submit1", "Consultar");
         data.put("search_type", "cnpj");

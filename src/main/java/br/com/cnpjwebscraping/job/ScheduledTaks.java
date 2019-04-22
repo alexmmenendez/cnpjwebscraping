@@ -2,11 +2,11 @@ package br.com.cnpjwebscraping.job;
 
 import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.domain.Empresa;
-import br.com.cnpjwebscraping.domain.HistoricoEmpresa;
+import br.com.cnpjwebscraping.domain.EmpresaScraping;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import br.com.cnpjwebscraping.service.domain.ConsultaService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
-import br.com.cnpjwebscraping.service.domain.HistoricoEmpresaService;
+import br.com.cnpjwebscraping.service.domain.EmpresaScrapingService;
 import br.com.cnpjwebscraping.service.worker.CNPJServiceWorker;
 import br.com.cnpjwebscraping.service.worker.ServiceWorkerResponse;
 import org.jsoup.nodes.Document;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -30,14 +31,14 @@ public class ScheduledTaks {
     private EmpresaService empresaService;
 
     @Autowired
-    private HistoricoEmpresaService historicoEmpresaService;
+    private EmpresaScrapingService empresaScrapingService;
 
     @Autowired
     private CNPJServiceWorker cnpjServiceWorker;
 
     @Scheduled(cron = "0 0/2 * * * ?")
     public void jobConsulta() throws Exception {
-        List<Consulta> consultas = consultaService.buscarPorStatus(ConsultaStatus.NOVA);
+        List<Consulta> consultas = consultaService.buscarPorStatusEm(Arrays.asList(ConsultaStatus.NOVA, ConsultaStatus.FALHA));
 
         System.out.println("Passou - " + new Date());
 
@@ -47,7 +48,7 @@ public class ScheduledTaks {
 
             consulta.setStatus(ConsultaStatus.PROCESSANDO);
 
-            consulta = consultaService.salvar(consulta);
+            consultaService.salvar(consulta);
         }
 
         for (Consulta consulta : consultas) {
@@ -56,19 +57,21 @@ public class ScheduledTaks {
 
                 Document document = serviceWorkerResponse.getDocument();
 
-                HistoricoEmpresa historicoEmpresa = consulta.getHistorico();
+                EmpresaScraping empresaScraping = consulta.getScraping();
 
-                Empresa empresa = historicoEmpresa.getEmpresa();
+                Empresa empresa = empresaScraping.getEmpresa();
 
                 empresa = setDados(empresa, document);
 
                 empresa = empresaService.salvar(empresa);
 
-                historicoEmpresa.setDados(empresa);
+                empresaScraping.setDados(empresa);
 
-                historicoEmpresa = historicoEmpresaService.salvar(historicoEmpresa);
+                empresaScraping.setHtml(document.html());
 
-                consulta.setHistorico(historicoEmpresa);
+                empresaScraping = empresaScrapingService.salvar(empresaScraping);
+
+                consulta.setScraping(empresaScraping);
 
                 consulta.setDataFinalizacao(new Date());
 
@@ -99,8 +102,6 @@ public class ScheduledTaks {
         empresa.setDataAbertura(formatter.parse(elements.get(5).html()));
 
         empresa.setRazaoSocial(elements.get(6).html());
-
-        empresa.setPorte(elements.get(8).html());
 
         empresa.setLogradouro(elements.get(12).html());
 
