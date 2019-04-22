@@ -8,6 +8,7 @@ import br.com.cnpjwebscraping.util.TrustUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -15,6 +16,9 @@ import java.util.Map;
 
 @Service
 public class CNPJServiceWorker implements ServiceWorker {
+
+    @Autowired
+    private Anticaptcha anticaptcha;
 
     @Override
     public ServiceWorkerResponse consultar(Consulta consulta) throws Exception {
@@ -29,7 +33,7 @@ public class CNPJServiceWorker implements ServiceWorker {
         Map<String, String> cookies = response.cookies();
 
         String googleKey = response.parse().select(".g-recaptcha").attr("data-sitekey");
-        String recaptcha = new Anticaptcha().solve(new ReCaptchaRequest(googleKey, URL_BASE + "Cnpjreva_Solicitacao2.asp")).getValue();
+        String recaptcha = anticaptcha.solve(new ReCaptchaRequest(googleKey, URL_BASE + "Cnpjreva_Solicitacao2.asp")).getValue();
 
         Map<String, String> data = new HashMap<>();
         data.put("origem", "comprovante");

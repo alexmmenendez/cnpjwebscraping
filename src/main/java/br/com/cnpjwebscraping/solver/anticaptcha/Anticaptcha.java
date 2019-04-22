@@ -2,8 +2,10 @@ package br.com.cnpjwebscraping.solver.anticaptcha;
 
 import br.com.cnpjwebscraping.solver.anticaptcha.api.NoCaptchaProxyless;
 import br.com.cnpjwebscraping.solver.anticaptcha.helper.DebugHelper;
+import br.com.cnpjwebscraping.solver.anticaptcha.properties.AnticaptchaProperties;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +14,8 @@ import java.net.URL;
 @Component
 public class Anticaptcha implements CaptchaSolver {
 
-	@Value("${anticaptcha.client.key}")
-	public String clientKey;
+	@Autowired
+	private AnticaptchaProperties properties;
 
 	@Override
 	public CaptchaProcessed solve(TextCaptchaRequest textCaptchaRequest) {
@@ -32,7 +34,7 @@ public class Anticaptcha implements CaptchaSolver {
 		 */
 		NoCaptchaProxyless api = new NoCaptchaProxyless();
 		try {
-			api.setClientKey("");
+			api.setClientKey(properties.getClientKey());
 			api.setWebsiteUrl(new URL(reCaptchaRequest.getPageUrl()));
 			api.setWebsiteKey(reCaptchaRequest.getGoogleKey());
 			
