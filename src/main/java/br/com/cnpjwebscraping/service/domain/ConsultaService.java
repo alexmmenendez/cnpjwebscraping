@@ -21,7 +21,11 @@ public class ConsultaService {
     }
 
     public List<Consulta> buscarPorStatus(ConsultaStatus status) {
-        return consultaRepository.findAllByStatus(ConsultaStatus.NOVA);
+        return consultaRepository.findAllByStatus(status);
+    }
+
+    public List<Consulta> buscarPorStatusEm(List<ConsultaStatus> status) {
+        return consultaRepository.findAllByStatusIn(status);
     }
 
     public Consulta buscarPeloTicket(String ticket) {

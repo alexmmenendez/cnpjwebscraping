@@ -1,9 +1,8 @@
 package br.com.cnpjwebscraping.controller;
 
-import br.com.cnpjwebscraping.domain.Cidade;
 import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.domain.Empresa;
-import br.com.cnpjwebscraping.domain.HistoricoEmpresa;
+import br.com.cnpjwebscraping.domain.EmpresaScraping;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import br.com.cnpjwebscraping.hardcoded.ResponseError;
 import br.com.cnpjwebscraping.input.wrapper.ConsultaInputWrapper;
@@ -12,10 +11,9 @@ import br.com.cnpjwebscraping.output.wrapper.ConsultaOutputWrapper;
 import br.com.cnpjwebscraping.service.domain.CidadeService;
 import br.com.cnpjwebscraping.service.domain.ConsultaService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
-import br.com.cnpjwebscraping.service.domain.HistoricoEmpresaService;
+import br.com.cnpjwebscraping.service.domain.EmpresaScrapingService;
 import br.com.cnpjwebscraping.util.FormatadorString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +36,7 @@ public class ConsultaAPI {
     private ConsultaService consultaService;
 
     @Autowired
-    private HistoricoEmpresaService historicoEmpresaService;
+    private EmpresaScrapingService empresaScrapingService;
 
     @Autowired
     private CidadeService cidadeService;
@@ -55,7 +53,7 @@ public class ConsultaAPI {
 
         Empresa empresa = empresaService.buscarPorCNPJ(cnpj);
 
-        HistoricoEmpresa historicoEmpresa;
+        EmpresaScraping empresaScraping;
 
         if (empresa == null) {
 
@@ -65,21 +63,21 @@ public class ConsultaAPI {
 
             empresa = empresaService.salvar(empresa);
 
-            historicoEmpresa = new HistoricoEmpresa(empresa);
+            empresaScraping = new EmpresaScraping(empresa);
 
-            historicoEmpresa = historicoEmpresaService.salvar(historicoEmpresa);
+            empresaScraping = empresaScrapingService.salvar(empresaScraping);
 
         } else {
-            historicoEmpresa = new HistoricoEmpresa(empresa);
+            empresaScraping = new EmpresaScraping(empresa);
 
-            historicoEmpresa = historicoEmpresaService.salvar(historicoEmpresa);
+            empresaScraping = empresaScrapingService.salvar(empresaScraping);
         }
 
         Consulta consulta = new Consulta();
 
         consulta.setDataAbertura(new Date());
         consulta.setStatus(ConsultaStatus.NOVA);
-        consulta.setHistorico(historicoEmpresa);
+        consulta.setScraping(empresaScraping);
 
         consulta = consultaService.salvar(consulta);
 
