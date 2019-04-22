@@ -31,7 +31,7 @@ public class Consulta {
 
     @JoinColumn(name = "HISTORICO_EMPRESA_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONSULTA_HISTORICO_EMPRESA"))
     @OneToOne(fetch = FetchType.EAGER)
-    private HistoricoEmpresa historico;
+    private EmpresaScraping scraping;
 
     public Long getId() {
         return id;
@@ -73,11 +73,11 @@ public class Consulta {
         this.ticket = ticket;
     }
 
-    public HistoricoEmpresa getHistorico() {
-        return historico;
+    public EmpresaScraping getScraping() {
+        return scraping;
     }
 
-    public void setHistorico(HistoricoEmpresa historico) {
-        this.historico = historico;
+    public void setScraping(EmpresaScraping scraping) {
+        this.scraping = scraping;
     }
 }

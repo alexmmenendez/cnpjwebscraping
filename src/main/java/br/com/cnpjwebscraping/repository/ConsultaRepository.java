@@ -13,6 +13,8 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     List<Consulta> findAllByStatus(ConsultaStatus status);
 
+    List<Consulta> findAllByStatusIn(List<ConsultaStatus> status);
+
     Consulta findOneByTicket(UUID ticket);
 
 }

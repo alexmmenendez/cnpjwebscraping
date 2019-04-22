@@ -20,32 +20,14 @@ public class Empresa {
     @Column(name = "RAZAO_SOCIAL")
     private String razaoSocial;
 
-    @Column(name = "NOME_FANTASIA")
-    private String nomeFantasia;
-
     @Column(name = "DATA_ABERTURA")
     private Date dataAbertura;
-
-    @Column(name = "DATA_SITUACAO_CADASTRAL")
-    private Date dataSituacaoCadastral;
-
-    @Column(name = "DATA_SITUACAO_ESPECIAL")
-    private Date dataSituacaoEspecial;
 
     @Column(name = "SITUACAO_CADASTRAL")
     private String situacaoCadastral;
 
-    @Column(name = "PORTE")
-    private String porte;
-
     @Column(name = "PARENTESCO")
     private String parentesco;
-
-    @Column(name = "ATIVIDADE_ECONOMICA_PRINCIPAL")
-    private String atividadeEconomicaPrincipal;
-
-    @Column(name = "ATIVIDADE_ECONOMICA_SECUNDARIA")
-    private String atividadeEconomicaSecundaria;
 
     @Column(name = "NATUREZA_JURIDICA")
     private String naturezaJuridica;
@@ -68,18 +50,6 @@ public class Empresa {
     @JoinColumn(name = "CIDADE_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_EMPRESA_CIDADE"))
     @ManyToOne(fetch = FetchType.LAZY)
     private Cidade cidade;
-
-    @Column(name = "ENDERECO_ELETRONICO")
-    private String enderecoEletronico;
-
-    @Column(name = "EFR")
-    private String efr;
-
-    @Column(name = "MOTIVO_SITUACAO_CADASTRAL")
-    private String motivoSituacaoCadastral;
-
-    @Column(name = "SITUACAO_ESPECIAL")
-    private String situacaoEspecial;
 
     public Long getId() {
         return id;
@@ -105,36 +75,12 @@ public class Empresa {
         this.razaoSocial = razaoSocial;
     }
 
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-
-    public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
-    }
-
     public Date getDataAbertura() {
         return dataAbertura;
     }
 
     public void setDataAbertura(Date dataAbertura) {
         this.dataAbertura = dataAbertura;
-    }
-
-    public Date getDataSituacaoCadastral() {
-        return dataSituacaoCadastral;
-    }
-
-    public void setDataSituacaoCadastral(Date dataSituacaoCadastral) {
-        this.dataSituacaoCadastral = dataSituacaoCadastral;
-    }
-
-    public Date getDataSituacaoEspecial() {
-        return dataSituacaoEspecial;
-    }
-
-    public void setDataSituacaoEspecial(Date dataSituacaoEspecial) {
-        this.dataSituacaoEspecial = dataSituacaoEspecial;
     }
 
     public String getSituacaoCadastral() {
@@ -145,36 +91,12 @@ public class Empresa {
         this.situacaoCadastral = situacaoCadastral;
     }
 
-    public String getPorte() {
-        return porte;
-    }
-
-    public void setPorte(String porte) {
-        this.porte = porte;
-    }
-
     public String getParentesco() {
         return parentesco;
     }
 
     public void setParentesco(String parentesco) {
         this.parentesco = parentesco;
-    }
-
-    public String getAtividadeEconomicaPrincipal() {
-        return atividadeEconomicaPrincipal;
-    }
-
-    public void setAtividadeEconomicaPrincipal(String atividadeEconomicaPrincipal) {
-        this.atividadeEconomicaPrincipal = atividadeEconomicaPrincipal;
-    }
-
-    public String getAtividadeEconomicaSecundaria() {
-        return atividadeEconomicaSecundaria;
-    }
-
-    public void setAtividadeEconomicaSecundaria(String atividadeEconomicaSecundaria) {
-        this.atividadeEconomicaSecundaria = atividadeEconomicaSecundaria;
     }
 
     public String getNaturezaJuridica() {
@@ -231,66 +153,5 @@ public class Empresa {
 
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
-    }
-
-    public String getEnderecoEletronico() {
-        return enderecoEletronico;
-    }
-
-    public void setEnderecoEletronico(String enderecoEletronico) {
-        this.enderecoEletronico = enderecoEletronico;
-    }
-
-    public String getEfr() {
-        return efr;
-    }
-
-    public void setEfr(String efr) {
-        this.efr = efr;
-    }
-
-    public String getMotivoSituacaoCadastral() {
-        return motivoSituacaoCadastral;
-    }
-
-    public void setMotivoSituacaoCadastral(String motivoSituacaoCadastral) {
-        this.motivoSituacaoCadastral = motivoSituacaoCadastral;
-    }
-
-    public String getSituacaoEspecial() {
-        return situacaoEspecial;
-    }
-
-    public void setSituacaoEspecial(String situacaoEspecial) {
-        this.situacaoEspecial = situacaoEspecial;
-    }
-
-    @Override
-    public String toString() {
-        return "Empresa{" +
-                "id=" + id +
-                ", cnpj='" + cnpj + '\'' +
-                ", razaoSocial='" + razaoSocial + '\'' +
-                ", nomeFantasia='" + nomeFantasia + '\'' +
-                ", dataAbertura=" + dataAbertura +
-                ", dataSituacaoCadastral=" + dataSituacaoCadastral +
-                ", dataSituacaoEspecial=" + dataSituacaoEspecial +
-                ", situacaoCadastral='" + situacaoCadastral + '\'' +
-                ", porte='" + porte + '\'' +
-                ", parentesco='" + parentesco + '\'' +
-                ", atividadeEconomicaPrincipal='" + atividadeEconomicaPrincipal + '\'' +
-                ", atividadeEconomicaSecundaria='" + atividadeEconomicaSecundaria + '\'' +
-                ", naturezaJuridica='" + naturezaJuridica + '\'' +
-                ", logradouro='" + logradouro + '\'' +
-                ", numeroLogradouro='" + numeroLogradouro + '\'' +
-                ", complementoLogradouro='" + complementoLogradouro + '\'' +
-                ", cep='" + cep + '\'' +
-                ", bairro='" + bairro + '\'' +
-                ", cidade=" + cidade +
-                ", enderecoEletronico='" + enderecoEletronico + '\'' +
-                ", efr='" + efr + '\'' +
-                ", motivoSituacaoCadastral='" + motivoSituacaoCadastral + '\'' +
-                ", situacaoEspecial='" + situacaoEspecial + '\'' +
-                '}';
     }
 }
