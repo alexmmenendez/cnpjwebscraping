@@ -1,4 +1,4 @@
-package br.com.cnpjwebscraping.controller;
+package br.com.cnpjwebscraping.api;
 
 import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.domain.Empresa;

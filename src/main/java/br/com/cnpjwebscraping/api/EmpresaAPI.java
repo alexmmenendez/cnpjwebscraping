@@ -1,10 +1,8 @@
-package br.com.cnpjwebscraping.controller;
+package br.com.cnpjwebscraping.api;
 
-import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.hardcoded.ResponseError;
 import br.com.cnpjwebscraping.output.ResponseErrorOutput;
-import br.com.cnpjwebscraping.output.wrapper.ConsultaOutputWrapper;
 import br.com.cnpjwebscraping.output.wrapper.EmpresaOutputWrapper;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
 import br.com.cnpjwebscraping.util.FormatadorString;
