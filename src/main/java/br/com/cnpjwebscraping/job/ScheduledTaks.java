@@ -40,7 +40,7 @@ public class ScheduledTaks {
     public void jobConsulta() throws Exception {
         List<Consulta> consultas = consultaService.buscarPorStatusEm(Arrays.asList(ConsultaStatus.NOVA, ConsultaStatus.FALHA));
 
-        System.out.println("Passou - " + new Date());
+       // System.out.println("Passou - " + new Date());
 
         ServiceWorkerResponse serviceWorkerResponse;
 

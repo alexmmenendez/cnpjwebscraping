@@ -13,6 +13,10 @@ import br.com.cnpjwebscraping.service.domain.ConsultaService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
 import br.com.cnpjwebscraping.service.domain.EmpresaScrapingService;
 import br.com.cnpjwebscraping.util.FormatadorString;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -96,6 +100,40 @@ public class ConsultaAPI {
 
         return ResponseEntity.ok().body(new ConsultaOutputWrapper(consulta));
 
+    }
+
+    @GetMapping(value = "/cpf-cnpj/{cnpj}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> getNomeByCPF(@PathVariable("cnpj") String cnpj, HttpServletRequest request) {
+
+        cnpj = FormatadorString.removePontuacao(cnpj);
+
+        System.out.println("Requisição de: " + request.getRemoteHost() + " para o cnpj: " + cnpj);
+
+        try {
+            Connection.Response response =
+                    Jsoup.connect("https://aplicacoes10.trtsp.jus.br/certidao_trabalhista_eletronica/public/index.php/index/nome-cpf")
+                            .method(Connection.Method.POST)
+                            .data("numero", cnpj)
+                            .timeout(60000)
+                            .postDataCharset("UTF-8")
+                            .ignoreContentType(true)
+                            .execute()
+                            .bufferUp();
+
+            if (StringUtils.equals(response.contentType(), MediaType.APPLICATION_JSON_VALUE)) {
+
+                JSONObject jsonObject = new JSONObject(response.parse().select("body").html().replace("&amp;", "&"));
+
+                return ResponseEntity.ok().body(jsonObject.toString());
+
+            } else {
+                throw new Exception("Error");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("error");
+        }
     }
 
 }
