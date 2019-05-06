@@ -13,16 +13,31 @@
         </div>
     </div>
 
-    <form action="/cpf-cnpj">
-        <div class="mt-4" style="max-width: 500px; margin: 0 auto;">
-            <div class="form-group">
-                <label for="cpfcnpj">CPF/CNPJ:</label>
-                <input id="cpfcnpj" class="form-control col-md-6" type="text" name="cpfcnpj" required="required"/>
+    <form id="form" action="consulta" method="post" class="d-flex justify-content-center">
+        <div class="mtross-4">
+            <div class="d-flex">
+                <div>
+                    <div class="form-group mr-3">
+                        <label for="cpfcnpj">CPF/CNPJ:</label>
+                        <input id="cpfcnpj" class="form-control" type="text" name="cpfcnpj" required="required"/>
+                    </div>
+
+                </div>
+                <div class="form-group d-flex align-items-end">
+                    <button	id="btn-consultar" type="submit" class="btn btn-success btn-lg w-30">Consultar</button>
+                </div>
             </div>
-            <div class="form-group">
-                <button	type="submit" class="btn btn-success btn-lg w-30">Consultar</button>
+            <div class="d-none" id="nomeRazaoSocial">
+                <span></span>
+                <img id="img-copy" src="/images/copy-solid.svg" class="ml-2 cursor-pointer" style="width:20px;"/>
             </div>
         </div>
+
     </form>
 </body>
+
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
 </html>

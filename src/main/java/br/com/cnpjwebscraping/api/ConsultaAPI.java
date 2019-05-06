@@ -22,11 +22,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
@@ -133,6 +135,47 @@ public class ConsultaAPI {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("error");
+        }
+    }
+
+    @PostMapping(value = "/cpf-cnpj", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> consultar(@Valid @RequestBody String cpfcnpj, Errors errors) {
+
+
+        if (errors.hasErrors()) {
+
+            return ResponseEntity.badRequest().body(errors.getAllErrors()
+                    .stream().map(x -> x.getDefaultMessage())
+                    .collect(Collectors.joining(",")));
+
+        }
+
+        cpfcnpj = FormatadorString.removePontuacao(cpfcnpj);
+
+        try {
+            Connection.Response response =
+                    Jsoup.connect("https://aplicacoes10.trtsp.jus.br/certidao_trabalhista_eletronica/public/index.php/index/nome-cpf")
+                            .method(Connection.Method.POST)
+                            .data("numero", cpfcnpj)
+                            .timeout(60000)
+                            .postDataCharset("UTF-8")
+                            .ignoreContentType(true)
+                            .execute()
+                            .bufferUp();
+
+            if (StringUtils.equals(response.contentType(), MediaType.APPLICATION_JSON_VALUE)) {
+
+                JSONObject jsonObject = new JSONObject(response.parse().select("body").html().replace("&amp;", "&"));
+
+                return ResponseEntity.ok().body(jsonObject.toString());
+
+            } else {
+                throw new Exception("Error");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
