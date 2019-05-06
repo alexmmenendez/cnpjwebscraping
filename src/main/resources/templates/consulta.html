@@ -19,7 +19,7 @@
                 <div>
                     <div class="form-group mr-3">
                         <label for="cpfcnpj">CPF/CNPJ:</label>
-                        <input id="cpfcnpj" class="form-control" type="text" name="cpfcnpj" required="required"/>
+                        <input id="cpfcnpj" class="form-control" type="text" name="cpfcnpj" placeholder="" maxlength="18" onkeypress='mascaraMutuario(this,cpfCnpj)' onblur='clearTimeout()' required="required"/>
                     </div>
 
                 </div>
