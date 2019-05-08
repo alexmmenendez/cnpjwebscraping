@@ -94,6 +94,7 @@ function fire_ajax_submit() {
             $("#btn-consultar").prop("disabled", false);
 
             console.log("SUCCESS : ", nomeRazaoSocial);
+            console.log("INSCRICAO ESTADUAL: ", data.inscricaoEstadual)
 
         },
         error: function (e) {

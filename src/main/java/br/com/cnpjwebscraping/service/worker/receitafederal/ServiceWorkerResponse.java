@@ -1,4 +1,4 @@
-package br.com.cnpjwebscraping.service.worker;
+package br.com.cnpjwebscraping.service.worker.receitafederal;
 
 import org.jsoup.nodes.Document;
 

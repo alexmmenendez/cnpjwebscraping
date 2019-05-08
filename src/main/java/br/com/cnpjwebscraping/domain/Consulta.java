@@ -29,9 +29,9 @@ public class Consulta {
     @Column(name = "STATUS")
     private ConsultaStatus status;
 
-    @JoinColumn(name = "HISTORICO_EMPRESA_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONSULTA_HISTORICO_EMPRESA"))
+    @JoinColumn(name = "EMPRESA_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONSULTA_EMPRESA"))
     @OneToOne(fetch = FetchType.EAGER)
-    private EmpresaScraping scraping;
+    private Empresa empresa;
 
     public Long getId() {
         return id;
@@ -73,11 +73,11 @@ public class Consulta {
         this.ticket = ticket;
     }
 
-    public EmpresaScraping getScraping() {
-        return scraping;
+    public Empresa getEmpresa() {
+        return empresa;
     }
 
-    public void setScraping(EmpresaScraping scraping) {
-        this.scraping = scraping;
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 }

@@ -1,19 +1,20 @@
 package br.com.cnpjwebscraping.service.domain;
 
 import br.com.cnpjwebscraping.domain.Cidade;
+import br.com.cnpjwebscraping.domain.Estado;
 import br.com.cnpjwebscraping.repository.CidadeRepository;
+import br.com.cnpjwebscraping.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CidadeService {
+public class EstadoService {
 
     @Autowired
-    private CidadeRepository cidadeRepository;
+    private EstadoRepository estadoRepository;
 
-    public Cidade buscarPelaUrl(String url) {
-        return cidadeRepository.findByUrl(url);
+    public Estado buscarPelaUF(String uf) {
+        return estadoRepository.findOneByUf(uf);
     }
-
 
 }

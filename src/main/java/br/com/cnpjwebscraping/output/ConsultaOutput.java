@@ -32,7 +32,7 @@ public class ConsultaOutput {
         this.setDataAbertura(consulta.getDataAbertura());
         this.setDataFinalizacao(consulta.getDataFinalizacao());
         this.setStatus(consulta.getStatus());
-        this.setEmpresa(new EmpresaOutput(consulta.getScraping().getEmpresa()));
+        this.setEmpresa(new EmpresaOutput(consulta.getEmpresa()));
     }
 
     public UUID getTicket() {

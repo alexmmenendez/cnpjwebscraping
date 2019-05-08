@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public enum ConsultaStatus {
 	NOVA("Nova"),
-	PROCESSANDO("Processando"),
+	CONSULTANDO_RECEITA_FEDERAL("Consultando receita federal..."),
+	CONSULTANDO_SINTEGRA("Consultando sintegra..."),
 	CONCLUIDO("Concluido"),
 	REPROCESSAR("Reprocessar"),
 	FALHA("Falha");

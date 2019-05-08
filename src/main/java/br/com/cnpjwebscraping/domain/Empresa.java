@@ -1,8 +1,14 @@
 package br.com.cnpjwebscraping.domain;
 
 
+import br.com.cnpjwebscraping.hardcoded.CNPJDados;
+import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
+
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 @Entity
 @Table(name = "EMPRESA")
@@ -13,6 +19,10 @@ public class Empresa {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "empresaSequence")
     @Column(name = "ID")
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private ConsultaStatus status;
 
     @Column(name = "CNPJ", unique = true)
     private String cnpj;
@@ -46,6 +56,9 @@ public class Empresa {
 
     @Column(name = "BAIRRO")
     private String bairro;
+
+    @Column(name = "INSCRICAO_ESTADUAL")
+    private String inscricaoEstadual;
 
     @JoinColumn(name = "CIDADE_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_EMPRESA_CIDADE"))
     @ManyToOne(fetch = FetchType.LAZY)
@@ -153,5 +166,21 @@ public class Empresa {
 
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
+    }
+
+    public String getInscricaoEstadual() {
+        return inscricaoEstadual;
+    }
+
+    public void setInscricaoEstadual(String inscricaoEstadual) {
+        this.inscricaoEstadual = inscricaoEstadual;
+    }
+
+    public ConsultaStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ConsultaStatus status) {
+        this.status = status;
     }
 }

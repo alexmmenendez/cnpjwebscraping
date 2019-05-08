@@ -5,6 +5,8 @@ import br.com.cnpjwebscraping.repository.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmpresaService {
 
@@ -17,6 +19,10 @@ public class EmpresaService {
 
     public Empresa buscarPorCNPJ(String CNPJ) {
         return empresaRepository.findOneByCnpj(CNPJ);
+    }
+
+    public List<Empresa> buscarEmpresasSemInscricaoEstadual() {
+        return empresaRepository.findAllByInscricaoEstadualIsNullAndCidadeIsNotNull();
     }
 
 
