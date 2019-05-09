@@ -70,6 +70,15 @@ function copyToClipboard(element) {
 function fire_ajax_submit() {
 
     $("#nomeRazaoSocial").addClass('d-none');
+    $("#inscricaoEstadual").addClass('d-none');
+    $("#situacaoCadastral").addClass('d-none');
+    $("#dataAbertura").addClass('d-none');
+    $("#parentesco").addClass('d-none');
+    $("#logradouro").addClass('d-none');
+    $("#numeroLogradouro").addClass('d-none');
+    $("#complementoLogradouro").addClass('d-none');
+    $("#cep").addClass('d-none');
+    $("#bairro").addClass('d-none');
 
     var cpfcnpj = $("#cpfcnpj").val();
 
@@ -99,32 +108,50 @@ function fire_ajax_submit() {
             $("#nomeRazaoSocial span").text(nomeRazaoSocial);
             $("#nomeRazaoSocial").toggleClass('d-none');
 
-            $("#inscricaoEstadual span").text("Inscrição Estadual: " + inscricaoEstadual);
-            $("#inscricaoEstadual").toggleClass('d-none');
+            if (inscricaoEstadual) {
+                $("#inscricaoEstadual span").text("Inscrição Estadual: " + inscricaoEstadual);
+                $("#inscricaoEstadual").toggleClass('d-none');
+            }
 
-            $("#situacaoCadastral span").text("Situação Cadastral: " + situacaoCadastral);
-            $("#situacaoCadastral").toggleClass('d-none');
+            if (situacaoCadastral) {
+                $("#situacaoCadastral span").text("Situação Cadastral: " + situacaoCadastral);
+                $("#situacaoCadastral").toggleClass('d-none');
+            }
 
-            $("#dataAbertura span").text("Data de Abertura: " + dataAbertura);
-            $("#dataAbertura").toggleClass('d-none');
+            if (dataAbertura) {
+                $("#dataAbertura span").text("Data de Abertura: " + dataAbertura);
+                $("#dataAbertura").toggleClass('d-none');
+            }
 
-            $("#parentesco span").text("Tipo Empresa: " + parentesco);
-            $("#parentesco").toggleClass('d-none');
+            if (parentesco) {
+                $("#parentesco span").text("Tipo Empresa: " + parentesco);
+                $("#parentesco").toggleClass('d-none');
+            }
 
-            $("#logradouro span").text("Logradouro: " + logradouro);
-            $("#logradouro").toggleClass('d-none');
+            if (logradouro) {
+                $("#logradouro span").text("Logradouro: " + logradouro);
+                $("#logradouro").toggleClass('d-none');
+            }
 
-            $("#numeroLogradouro span").text("Número: " + numeroLogradouro);
-            $("#numeroLogradouro").toggleClass('d-none');
+            if (numeroLogradouro) {
+                $("#numeroLogradouro span").text("Número: " + numeroLogradouro);
+                $("#numeroLogradouro").toggleClass('d-none');
+            }
 
-            $("#complementoLogradouro span").text("Complemento: " + complementoLogradouro);
-            $("#complementoLogradouro").toggleClass('d-none');
+            if (complementoLogradouro) {
+                $("#complementoLogradouro span").text("Complemento: " + complementoLogradouro);
+                $("#complementoLogradouro").toggleClass('d-none');
+            }
 
-            $("#cep span").text("CEP: " + cep);
-            $("#cep").toggleClass('d-none');
+            if (cep) {
+                $("#cep span").text("CEP: " + cep);
+                $("#cep").toggleClass('d-none');
+            }
 
-            $("#bairro span").text("Bairro: " + bairro);
-            $("#bairro").toggleClass('d-none');
+            if (bairro) {
+                $("#bairro span").text("Bairro: " + bairro);
+                $("#bairro").toggleClass('d-none');
+            }
 
             $("#btn-consultar").prop("disabled", false);
 
