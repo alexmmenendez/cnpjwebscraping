@@ -52,8 +52,6 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
 
         document = response.parse();
 
-        System.out.println(document);
-
         if (StringUtils.containsIgnoreCase(document.html(), "Sequência de caracteres incorreta.")) {
             throw new Exception("Captcha failed");
         }
@@ -84,9 +82,7 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
 
         FileUtils.writeByteArrayToFile(file, response.bodyAsBytes());
 
-        String captcha = new DeathbycaptchaV2().solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
-
-        return captcha;
+        return new DeathbycaptchaV2().solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
     }
 
     public static void main(String[] args) throws Exception {
@@ -127,13 +123,9 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
 
         document = response.parse();
 
-        System.out.println(document);
-
         Element table = document.select("form table font font font").first();
 
         String inscricaoMunicipal = table.html().trim();
-
-        System.out.println(inscricaoMunicipal);
 
         if (!StringUtils.isNumeric(inscricaoMunicipal)) {
             throw new Exception("Não é inscricao municipal");
