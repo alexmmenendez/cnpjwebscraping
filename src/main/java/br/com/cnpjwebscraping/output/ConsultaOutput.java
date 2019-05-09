@@ -1,6 +1,6 @@
 package br.com.cnpjwebscraping.output;
 
-import br.com.cnpjwebscraping.domain.Consulta;
+import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,13 +11,13 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ConsultaOutput {
 
-    private UUID ticket;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", locale = "pt-BR", timezone = "Brazil/East")
+    private Date dataConsultaCriacao;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", locale = "pt-BR", timezone = "Brazil/East")
-    private Date dataAbertura;
+    private Date dataConsultaFinalizacao;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", locale = "pt-BR", timezone = "Brazil/East")
-    private Date dataFinalizacao;
+
 
     private ConsultaStatus status;
 
@@ -27,36 +27,27 @@ public class ConsultaOutput {
 
     }
 
-    public ConsultaOutput(Consulta consulta) {
-        this.setTicket(consulta.getTicket());
-        this.setDataAbertura(consulta.getDataAbertura());
-        this.setDataFinalizacao(consulta.getDataFinalizacao());
-        this.setStatus(consulta.getStatus());
-        this.setEmpresa(new EmpresaOutput(consulta.getEmpresa()));
+    public ConsultaOutput(Empresa empresa) {
+        this.setDataConsultaCriacao(empresa.getConsultaDataCriacao());
+        this.setDataConsultaFinalizacao(empresa.getConsultaDataFinalizacao());
+        this.setStatus(empresa.getStatus());
+        this.setEmpresa(new EmpresaOutput(empresa));
     }
 
-    public UUID getTicket() {
-        return ticket;
+    public Date getDataConsultaCriacao() {
+        return dataConsultaCriacao;
     }
 
-    public void setTicket(UUID ticket) {
-        this.ticket = ticket;
+    public void setDataConsultaCriacao(Date dataConsultaCriacao) {
+        this.dataConsultaCriacao = dataConsultaCriacao;
     }
 
-    public Date getDataAbertura() {
-        return dataAbertura;
+    public Date getDataConsultaFinalizacao() {
+        return dataConsultaFinalizacao;
     }
 
-    public void setDataAbertura(Date dataAbertura) {
-        this.dataAbertura = dataAbertura;
-    }
-
-    public Date getDataFinalizacao() {
-        return dataFinalizacao;
-    }
-
-    public void setDataFinalizacao(Date dataFinalizacao) {
-        this.dataFinalizacao = dataFinalizacao;
+    public void setDataConsultaFinalizacao(Date dataConsultaFinalizacao) {
+        this.dataConsultaFinalizacao = dataConsultaFinalizacao;
     }
 
     public ConsultaStatus getStatus() {
@@ -75,3 +66,4 @@ public class ConsultaOutput {
         this.empresa = empresa;
     }
 }
+

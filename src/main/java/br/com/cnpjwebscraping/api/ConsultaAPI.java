@@ -1,6 +1,5 @@
 package br.com.cnpjwebscraping.api;
 
-import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import br.com.cnpjwebscraping.hardcoded.ResponseError;
@@ -8,7 +7,6 @@ import br.com.cnpjwebscraping.input.wrapper.ConsultaInputWrapper;
 import br.com.cnpjwebscraping.output.ResponseErrorOutput;
 import br.com.cnpjwebscraping.output.wrapper.ConsultaOutputWrapper;
 import br.com.cnpjwebscraping.service.domain.CidadeService;
-import br.com.cnpjwebscraping.service.domain.ConsultaService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
 import br.com.cnpjwebscraping.service.worker.sintegra.SCSintegraServiceWorker;
 import br.com.cnpjwebscraping.util.FormatadorString;
@@ -38,9 +36,6 @@ public class ConsultaAPI {
     private EmpresaService empresaService;
 
     @Autowired
-    private ConsultaService consultaService;
-
-    @Autowired
     private CidadeService cidadeService;
 
     @Autowired
@@ -62,33 +57,17 @@ public class ConsultaAPI {
 
             empresa = new Empresa();
 
+            empresa.setConsultaDataCriacao(new Date());
+
             empresa.setCnpj(cnpj);
 
+            empresa.setStatus(ConsultaStatus.NOVA);
+
             empresa = empresaService.salvar(empresa);
+
         }
 
-        Consulta consulta = new Consulta();
-
-        consulta.setDataAbertura(new Date());
-        consulta.setStatus(ConsultaStatus.NOVA);
-        consulta.setEmpresa(empresa);
-
-        consulta = consultaService.salvar(consulta);
-
-        return ResponseEntity.accepted().body(new ConsultaOutputWrapper(consulta));
-
-    }
-
-    @GetMapping("/{ticket}")
-    public ResponseEntity<?> getEmpresaPeloTicket(@PathVariable("ticket") String ticket) {
-
-        Consulta consulta = consultaService.buscarPeloTicket(ticket);
-
-        if (consulta == null) {
-            return new ResponseEntity<>(new ResponseErrorOutput(ResponseError.NOT_FOUND), HttpStatus.OK);
-        }
-
-        return ResponseEntity.ok().body(new ConsultaOutputWrapper(consulta));
+        return ResponseEntity.accepted().body(new ConsultaOutputWrapper(empresa));
 
     }
 

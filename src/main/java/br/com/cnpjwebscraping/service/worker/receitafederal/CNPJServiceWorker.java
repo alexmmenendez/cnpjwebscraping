@@ -1,7 +1,7 @@
 package br.com.cnpjwebscraping.service.worker.receitafederal;
 
 
-import br.com.cnpjwebscraping.domain.Consulta;
+import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.util.TrustUtil;
@@ -22,7 +22,7 @@ public class CNPJServiceWorker implements ServiceWorker {
     private Anticaptcha anticaptcha;
 
     @Override
-    public ServiceWorkerResponse consultar(Consulta consulta) throws Exception {
+    public ServiceWorkerResponse consultar(Empresa empresa) throws Exception {
         String URL_BASE = "https://www.receita.fazenda.gov.br/PessoaJuridica/CNPJ/cnpjreva/";
 
         TrustUtil.setTrustAllCerts();
@@ -38,7 +38,7 @@ public class CNPJServiceWorker implements ServiceWorker {
 
         Map<String, String> data = new HashMap<>();
         data.put("origem", "comprovante");
-        data.put("cnpj", consulta.getEmpresa().getCnpj());
+        data.put("cnpj", empresa.getCnpj());
         data.put("g-recaptcha-response", recaptcha);
         data.put("submit1", "Consultar");
         data.put("search_type", "cnpj");

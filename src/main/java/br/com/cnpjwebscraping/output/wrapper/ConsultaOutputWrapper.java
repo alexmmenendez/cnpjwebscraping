@@ -1,6 +1,6 @@
 package br.com.cnpjwebscraping.output.wrapper;
 
-import br.com.cnpjwebscraping.domain.Consulta;
+import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.output.ConsultaOutput;
 
 public class ConsultaOutputWrapper extends Wrapper {
@@ -11,8 +11,8 @@ public class ConsultaOutputWrapper extends Wrapper {
 
     }
 
-    public ConsultaOutputWrapper(Consulta consulta) {
-        this.setConsulta(new ConsultaOutput(consulta));
+    public ConsultaOutputWrapper(Empresa empresa) {
+        this.setConsulta(new ConsultaOutput(empresa));
     }
 
     public ConsultaOutput getConsulta() {

@@ -23,7 +23,7 @@ public class DeathbycaptchaV2 implements CaptchaSolver {
 
 		CaptchaProcessed captchaProcessed = new CaptchaProcessed();
 
-		Client client = new HttpClient("lopesprodrigo", "xsw2XSW@");
+		Client client = new HttpClient("", "");
 		client.isVerbose = true;
 
 		try {

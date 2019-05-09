@@ -6,9 +6,10 @@ public enum ConsultaStatus {
 	NOVA("Nova"),
 	CONSULTANDO_RECEITA_FEDERAL("Consultando receita federal..."),
 	CONSULTANDO_SINTEGRA("Consultando sintegra..."),
-	CONCLUIDO("Concluido"),
-	REPROCESSAR("Reprocessar"),
-	FALHA("Falha");
+	CONCLUIDA_RECEITA_FEDERAL("Consulta da Receita Federal concluida"),
+	CONCLUIDA_SINTEGRA("Consulta da Sintegra concluida"),
+	FALHA_CONSULTA_RECEITA_FEDERAL("Falha"),
+	FALHA_CONSULTA_SINTEGRA("Falha");
 
 	private String descricao;
 

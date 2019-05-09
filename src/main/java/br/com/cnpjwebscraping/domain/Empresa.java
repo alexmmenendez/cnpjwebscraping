@@ -24,6 +24,12 @@ public class Empresa {
     @Column(name = "STATUS")
     private ConsultaStatus status;
 
+    @Column(name = "CONSULTA_DATA_CRIACAO")
+    private Date consultaDataCriacao;
+
+    @Column(name = "CONSULTA_DATA_FINALIZACAO")
+    private Date consultaDataFinalizacao;
+
     @Column(name = "CNPJ", unique = true)
     private String cnpj;
 
@@ -182,5 +188,21 @@ public class Empresa {
 
     public void setStatus(ConsultaStatus status) {
         this.status = status;
+    }
+
+    public Date getConsultaDataCriacao() {
+        return consultaDataCriacao;
+    }
+
+    public void setConsultaDataCriacao(Date consultaDataCriacao) {
+        this.consultaDataCriacao = consultaDataCriacao;
+    }
+
+    public Date getConsultaDataFinalizacao() {
+        return consultaDataFinalizacao;
+    }
+
+    public void setConsultaDataFinalizacao(Date consultaDataFinalizacao) {
+        this.consultaDataFinalizacao = consultaDataFinalizacao;
     }
 }

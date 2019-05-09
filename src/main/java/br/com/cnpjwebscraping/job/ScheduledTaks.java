@@ -1,13 +1,11 @@
 package br.com.cnpjwebscraping.job;
 
 import br.com.cnpjwebscraping.domain.Cidade;
-import br.com.cnpjwebscraping.domain.Consulta;
 import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.hardcoded.CNPJDados;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import br.com.cnpjwebscraping.logger.DebugHelper;
 import br.com.cnpjwebscraping.service.domain.CidadeService;
-import br.com.cnpjwebscraping.service.domain.ConsultaService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
 import br.com.cnpjwebscraping.service.worker.receitafederal.CNPJServiceWorker;
 import br.com.cnpjwebscraping.service.worker.receitafederal.ServiceWorkerResponse;
@@ -30,9 +28,6 @@ import java.util.*;
 public class ScheduledTaks {
 
     @Autowired
-    private ConsultaService consultaService;
-
-    @Autowired
     private EmpresaService empresaService;
 
     @Autowired
@@ -41,9 +36,17 @@ public class ScheduledTaks {
     @Autowired
     private CidadeService cidadeService;
 
-/*    @Scheduled(cron = "0 0/2 * * * ?")
+    @Scheduled(cron = "0 0/2 * * * ?")
     public void jobConsultaSintegra() {
-        List<Empresa> empresas = empresaService.buscarEmpresasSemInscricaoEstadual();
+        List<Empresa> empresas = empresaService.buscarPorStatusEm(Arrays.asList(ConsultaStatus.CONCLUIDA_RECEITA_FEDERAL, ConsultaStatus.FALHA_CONSULTA_SINTEGRA));
+
+        for (Empresa empresa: empresas) {
+
+            empresa.setStatus(ConsultaStatus.CONSULTANDO_SINTEGRA);
+
+            empresaService.salvar(empresa);
+        }
+
 
         for (Empresa empresa : empresas) {
             SintegraServiceWorker worker = SintegraServiceWorkerFactory.identificarWorker(empresa);
@@ -54,92 +57,56 @@ public class ScheduledTaks {
                 try {
                     SintegraServiceWorkerResponse response = worker.consultar(empresa.getCnpj());
 
+                    String inscricaoEstadual = response.getInscricaoEstadual();
+
+                    empresa.setInscricaoEstadual(inscricaoEstadual);
+
+                    empresa.setStatus(ConsultaStatus.CONCLUIDA_SINTEGRA);
+
+                    empresaService.salvar(empresa);
+
                 } catch (Exception e) {
                     e.printStackTrace();
+
+                    empresa.setStatus(ConsultaStatus.FALHA_CONSULTA_SINTEGRA);
+
+                    empresaService.salvar(empresa);
                 }
             }
         }
-    }*/
+    }
 
     @Scheduled(cron = "0 0/2 * * * ?")
     public void jobConsulta() {
-        List<Consulta> consultas = consultaService.buscarPorStatusEm(Arrays.asList(ConsultaStatus.NOVA, ConsultaStatus.FALHA));
+        List<Empresa> empresas = empresaService.buscarPorStatusEm(Arrays.asList(ConsultaStatus.NOVA, ConsultaStatus.FALHA_CONSULTA_RECEITA_FEDERAL));
 
         ServiceWorkerResponse serviceWorkerResponse;
 
-        for (Consulta consulta: consultas) {
+        for (Empresa empresa: empresas) {
 
-            consulta.setStatus(ConsultaStatus.CONSULTANDO_RECEITA_FEDERAL);
+            empresa.setStatus(ConsultaStatus.CONSULTANDO_RECEITA_FEDERAL);
 
-            consultaService.salvar(consulta);
+            empresaService.salvar(empresa);
         }
 
-        for (Consulta consulta : consultas) {
+        for (Empresa empresa : empresas) {
             try {
-                serviceWorkerResponse = cnpjServiceWorker.consultar(consulta);
+                serviceWorkerResponse = cnpjServiceWorker.consultar(empresa);
 
-                Empresa empresa = consulta.getEmpresa();
+                empresaService.setDados(empresa, serviceWorkerResponse.getDocument());
 
-                setDados(empresa, serviceWorkerResponse.getDocument());
+                empresa.setConsultaDataFinalizacao(new Date());
+
+                empresa.setStatus(ConsultaStatus.CONCLUIDA_RECEITA_FEDERAL);
 
                 empresaService.salvar(empresa);
-
-                consulta.setDataFinalizacao(new Date());
-
-                consulta.setStatus(ConsultaStatus.CONCLUIDO);
-
-                consultaService.salvar(consulta);
             } catch (Exception e) {
                 e.printStackTrace();
 
-                consulta.setStatus(ConsultaStatus.FALHA);
+                empresa.setStatus(ConsultaStatus.FALHA_CONSULTA_RECEITA_FEDERAL);
 
-                consultaService.salvar(consulta);
+                empresaService.salvar(empresa);
             }
         }
-
     }
-
-    public void setDados(Empresa empresa, Document document) throws ParseException {
-
-        Map<CNPJDados, String> dados = new HashMap<>();
-
-        List<Element> elements = document.select("font");
-
-        for (int i = 0; i < elements.size(); i++) {
-            CNPJDados cnpjDados = CNPJDados.getEnum(elements.get(i).text());
-
-            if (cnpjDados != null) {
-                dados.put(cnpjDados, elements.get(i+1).text());
-            }
-        }
-
-        empresa.setParentesco(document.select("b").get(3).text().trim());
-
-        empresa.setBairro(dados.get(CNPJDados.BAIRRO_LOGRADOURO));
-
-        empresa.setCep(dados.get(CNPJDados.CEP));
-
-        empresa.setComplementoLogradouro(dados.get(CNPJDados.COMPLEMENTO_LOGRADOURO));
-
-        empresa.setLogradouro(dados.get(CNPJDados.LOGRADOURO));
-
-        empresa.setNumeroLogradouro(dados.get(CNPJDados.NUMERO_LOGRADOURO));
-
-        empresa.setDataAbertura(new SimpleDateFormat("dd/MM/yyyy").parse(dados.get(CNPJDados.DATA_ABERTURA)));
-
-        empresa.setSituacaoCadastral(dados.get(CNPJDados.SITUACAO_CADASTRAL));
-
-        empresa.setRazaoSocial(dados.get(CNPJDados.NOME_EMPRESARIAL));
-
-        String url = dados.get(CNPJDados.UF).toLowerCase().toLowerCase() + "-";
-
-        url = url + StringUtils.replaceAll(FormatadorString.removerAcentos(dados.get(CNPJDados.MUNICIPIO)).toLowerCase().trim(), " ", "-");
-
-        Cidade cidade = cidadeService.buscarPelaUrl(url);
-
-        empresa.setCidade(cidade);
-
-    }
-
 }
