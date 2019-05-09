@@ -85,16 +85,51 @@ function fire_ajax_submit() {
         timeout: 600000,
         success: function (data) {
 
-            var nomeRazaoSocial = data.nome;
+            var nomeRazaoSocial = data.consulta.empresa.razaoSocial;
+            var inscricaoEstadual = data.consulta.empresa.inscricaoEstadual;
+            var dataAbertura = data.consulta.empresa.dataAbertura;
+            var situacaoCadastral = data.consulta.empresa.situacaoCadastral;
+            var parentesco = data.consulta.empresa.parentesco;
+            var logradouro = data.consulta.empresa.logradouro;
+            var numeroLogradouro = data.consulta.empresa.numeroLogradouro;
+            var complementoLogradouro = data.consulta.empresa.complementoLogradouro;
+            var cep = data.consulta.empresa.cep;
+            var bairro = data.consulta.empresa.bairro;
 
             $("#nomeRazaoSocial span").text(nomeRazaoSocial);
-
             $("#nomeRazaoSocial").toggleClass('d-none');
+
+            $("#inscricaoEstadual span").text("Inscrição Estadual: " + inscricaoEstadual);
+            $("#inscricaoEstadual").toggleClass('d-none');
+
+            $("#situacaoCadastral span").text("Situação Cadastral: " + situacaoCadastral);
+            $("#situacaoCadastral").toggleClass('d-none');
+
+            $("#dataAbertura span").text("Data de Abertura: " + dataAbertura);
+            $("#dataAbertura").toggleClass('d-none');
+
+            $("#parentesco span").text("Tipo Empresa: " + parentesco);
+            $("#parentesco").toggleClass('d-none');
+
+            $("#logradouro span").text("Logradouro: " + logradouro);
+            $("#logradouro").toggleClass('d-none');
+
+            $("#numeroLogradouro span").text("Número: " + numeroLogradouro);
+            $("#numeroLogradouro").toggleClass('d-none');
+
+            $("#complementoLogradouro span").text("Complemento: " + complementoLogradouro);
+            $("#complementoLogradouro").toggleClass('d-none');
+
+            $("#cep span").text("CEP: " + cep);
+            $("#cep").toggleClass('d-none');
+
+            $("#bairro span").text("Bairro: " + bairro);
+            $("#bairro").toggleClass('d-none');
 
             $("#btn-consultar").prop("disabled", false);
 
             console.log("SUCCESS : ", nomeRazaoSocial);
-            console.log("INSCRICAO ESTADUAL: ", data.inscricaoEstadual)
+            console.log("INSCRICAO ESTADUAL: ", inscricaoEstadual)
 
         },
         error: function (e) {

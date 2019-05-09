@@ -56,6 +56,10 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
             throw new Exception("Captcha failed");
         }
 
+        if (StringUtils.containsIgnoreCase(document.html(), "CNPJ NÃO CADASTRADO NO CAD.ICMS PR")) {
+            return new SintegraServiceWorkerResponse(document, "CNPJ NÃO CADASTRADO NO CAD.ICMS PR");
+        }
+
         Element table = document.select("form table font font font").first();
 
         String inscricaoEstadual = table.html().trim();

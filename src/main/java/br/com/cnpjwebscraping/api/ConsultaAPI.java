@@ -8,12 +8,8 @@ import br.com.cnpjwebscraping.output.ResponseErrorOutput;
 import br.com.cnpjwebscraping.output.wrapper.ConsultaOutputWrapper;
 import br.com.cnpjwebscraping.service.domain.CidadeService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
-import br.com.cnpjwebscraping.service.worker.sintegra.SCSintegraServiceWorker;
+import br.com.cnpjwebscraping.service.worker.trt.TRT02ServiceWorker;
 import br.com.cnpjwebscraping.util.FormatadorString;
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,10 +32,7 @@ public class ConsultaAPI {
     private EmpresaService empresaService;
 
     @Autowired
-    private CidadeService cidadeService;
-
-    @Autowired
-    private SCSintegraServiceWorker scSintegraServiceWorker;
+    private TRT02ServiceWorker trt02ServiceWorker;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> nova(@Valid @RequestBody ConsultaInputWrapper consultaInputWrapper, BindingResult bindingResult, HttpServletRequest request) {
@@ -84,33 +77,52 @@ public class ConsultaAPI {
 
         cpfcnpj = FormatadorString.removePontuacao(cpfcnpj);
 
-        try {
-            Connection.Response response =
-                    Jsoup.connect("https://aplicacoes10.trtsp.jus.br/certidao_trabalhista_eletronica/public/index.php/index/nome-cpf")
-                            .method(Connection.Method.POST)
-                            .data("numero", cpfcnpj)
-                            .timeout(60000)
-                            .postDataCharset("UTF-8")
-                            .ignoreContentType(true)
-                            .execute()
-                            .bufferUp();
+        if (cpfcnpj.length() == 14) {
+            Empresa empresa = empresaService.buscarPorCNPJ(cpfcnpj);
 
-            if (StringUtils.equals(response.contentType(), MediaType.APPLICATION_JSON_VALUE)) {
+            if (empresa == null) {
 
-                JSONObject jsonObject = new JSONObject(response.parse().select("body").html().replace("&amp;", "&"));
+                empresa = new Empresa();
 
-                jsonObject.put("inscricaoEstadual", scSintegraServiceWorker.consultar(cpfcnpj).getInscricaoEstadual());
+                empresa.setConsultaDataCriacao(new Date());
 
-                return ResponseEntity.ok().body(jsonObject.toString());
+                empresa.setCnpj(cpfcnpj);
 
+                empresa.setStatus(ConsultaStatus.NOVA);
+
+                empresaService.salvar(empresa);
+
+                try {
+                    String nomeRazaoSocial = trt02ServiceWorker.consultaNomeRazaoSocial(cpfcnpj);
+
+                    empresa.setRazaoSocial(nomeRazaoSocial);
+
+                    empresa = empresaService.salvar(empresa);
+
+                    return ResponseEntity.accepted().body(new ConsultaOutputWrapper(empresa));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
             } else {
-                throw new Exception("Error");
+                return ResponseEntity.accepted().body(new ConsultaOutputWrapper(empresa));
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } else {
+
+            try {
+                String nome = trt02ServiceWorker.consultaNomeRazaoSocial(cpfcnpj);
+
+                Empresa empresa = new Empresa();
+                empresa.setRazaoSocial(nome);
+
+                return ResponseEntity.accepted().body(new ConsultaOutputWrapper(empresa));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
-
 }

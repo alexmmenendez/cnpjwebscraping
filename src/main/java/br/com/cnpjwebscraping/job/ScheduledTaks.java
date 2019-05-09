@@ -20,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
@@ -47,14 +45,14 @@ public class ScheduledTaks {
             empresaService.salvar(empresa);
         }
 
-
         for (Empresa empresa : empresas) {
-            SintegraServiceWorker worker = SintegraServiceWorkerFactory.identificarWorker(empresa);
 
-            if (worker != null) {
-                System.out.println(worker.getClass().getSimpleName());
+            try {
+                SintegraServiceWorker worker = SintegraServiceWorkerFactory.identificarWorker(empresa);
 
-                try {
+                if (worker != null) {
+                    System.out.println(worker.getClass().getSimpleName());
+
                     SintegraServiceWorkerResponse response = worker.consultar(empresa.getCnpj());
 
                     String inscricaoEstadual = response.getInscricaoEstadual();
@@ -65,13 +63,14 @@ public class ScheduledTaks {
 
                     empresaService.salvar(empresa);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    empresa.setStatus(ConsultaStatus.FALHA_CONSULTA_SINTEGRA);
-
-                    empresaService.salvar(empresa);
                 }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                empresa.setStatus(ConsultaStatus.FALHA_CONSULTA_SINTEGRA);
+
+                empresaService.salvar(empresa);
             }
         }
     }

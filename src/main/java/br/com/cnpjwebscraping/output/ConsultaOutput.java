@@ -17,8 +17,6 @@ public class ConsultaOutput {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", locale = "pt-BR", timezone = "Brazil/East")
     private Date dataConsultaFinalizacao;
 
-
-
     private ConsultaStatus status;
 
     private EmpresaOutput empresa;
