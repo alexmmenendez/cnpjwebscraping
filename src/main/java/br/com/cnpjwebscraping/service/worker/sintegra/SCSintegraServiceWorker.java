@@ -9,6 +9,7 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -25,6 +26,9 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
     private Map<String, String> cookies;
 
     private Document document;
+
+    @Autowired
+    private DeathbycaptchaV2 deathbycaptchaV2;
 
     @Override
     public SintegraServiceWorkerResponse consultar(String cnpj) throws Exception {
@@ -86,56 +90,6 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
 
         FileUtils.writeByteArrayToFile(file, response.bodyAsBytes());
 
-        return new DeathbycaptchaV2().solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
+        return deathbycaptchaV2.solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
     }
-
-    public static void main(String[] args) throws Exception {
-
-        Connection.Response response = Jsoup.connect(URL).execute();
-
-        Map<String, String> cookies = response.cookies();
-
-        Document document = response.parse();
-
-        String urlImage = "http://sistemas3.sef.sc.gov.br/sintegra/";
-
-        urlImage = urlImage + document.select("#UpdatePanel1").first().select("img").first().attr("src");
-
-        response = Jsoup.connect(urlImage)
-                .cookies(cookies)
-                .ignoreContentType(true)
-                .execute();
-
-        File file = new File("/tmp/captcha_init" + UUID.randomUUID());
-
-        FileUtils.writeByteArrayToFile(file, response.bodyAsBytes());
-
-        String captcha = new DeathbycaptchaV2().solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
-
-        response = Jsoup.connect(URL)
-                .method(Connection.Method.POST)
-                .data("__VIEWSTATE", document.select("[name=__VIEWSTATE]").val())
-                .data("__VIEWSTATEGENERATOR", document.select("[name=__VIEWSTATEGENERATOR]").val())
-                .data("__EVENTVALIDATION", document.select("[name=__EVENTVALIDATION]").val())
-                .data("opt_pessoa", "2")
-                .data("txt_CPFCNPJ", "07526557002900")
-                .data("txtCodigoCaptcha", captcha)
-                .data("btnEnviar", "Pesquisar")
-                .cookies(cookies)
-                .execute()
-                .bufferUp();
-
-        document = response.parse();
-
-        Element table = document.select("form table font font font").first();
-
-        String inscricaoMunicipal = table.html().trim();
-
-        if (!StringUtils.isNumeric(inscricaoMunicipal)) {
-            throw new Exception("Não é inscricao municipal");
-        }
-
-
-    }
-
 }

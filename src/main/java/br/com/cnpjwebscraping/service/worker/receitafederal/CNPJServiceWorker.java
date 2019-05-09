@@ -34,7 +34,7 @@ public class CNPJServiceWorker implements ServiceWorker {
         Map<String, String> cookies = response.cookies();
 
         String googleKey = response.parse().select(".g-recaptcha").attr("data-sitekey");
-        String recaptcha = new Anticaptcha().solve(new ReCaptchaRequest(googleKey, URL_BASE + "Cnpjreva_Solicitacao2.asp")).getValue();
+        String recaptcha = anticaptcha.solve(new ReCaptchaRequest(googleKey, URL_BASE + "Cnpjreva_Solicitacao2.asp")).getValue();
 
         Map<String, String> data = new HashMap<>();
         data.put("origem", "comprovante");

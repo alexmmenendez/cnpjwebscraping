@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -28,6 +29,9 @@ public class SESintegraServiceWorker implements SintegraServiceWorker {
     private Map<String, String> cookies;
 
     private Document document;
+
+    @Autowired
+    private DeathbycaptchaV2 deathbycaptchaV2;
 
     @Override
     public SintegraServiceWorkerResponse consultar(String cnpj) throws Exception {
@@ -78,7 +82,7 @@ public class SESintegraServiceWorker implements SintegraServiceWorker {
 
         FileUtils.writeByteArrayToFile(file, response.bodyAsBytes());
 
-        return new DeathbycaptchaV2().solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
+        return deathbycaptchaV2.solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
     }
 
 }

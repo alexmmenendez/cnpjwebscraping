@@ -7,23 +7,28 @@ import br.com.cnpjwebscraping.solver.deathbycaptchav2.client.Captcha;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.client.HttpClient;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.exception.DeathbycaptchaException;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.client.Client;
+import br.com.cnpjwebscraping.solver.deathbycaptchav2.properties.DeathbycaptchaProperties;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
 public class DeathbycaptchaV2 implements CaptchaSolver {
-	
+
+	@Autowired
+	private DeathbycaptchaProperties properties;
+
 	@Override
 	public CaptchaProcessed solveImageCaptcha(TextCaptchaRequest textCaptchaRequest) throws DeathbycaptchaException {
 		DebugHelper.out("Trying to solve the captcha by DeathByCaptcha", DebugHelper.Type.INFO);
 
 		CaptchaProcessed captchaProcessed = new CaptchaProcessed();
 
-		Client client = new HttpClient("lopesprodrigo", "xsw2XSW@");
+		Client client = new HttpClient(properties.getLogin(), properties.getPassword());
 		client.isVerbose = true;
 
 		try {
