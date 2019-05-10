@@ -69,7 +69,7 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
         String inscricaoEstadual = table.html().trim();
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
-            throw new Exception("Não é inscricao municipal");
+            return new SintegraServiceWorkerResponse(document, "Não possui.");
         }
 
         return new SintegraServiceWorkerResponse(document, inscricaoEstadual);

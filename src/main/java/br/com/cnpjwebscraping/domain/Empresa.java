@@ -1,14 +1,9 @@
 package br.com.cnpjwebscraping.domain;
 
-
-import br.com.cnpjwebscraping.hardcoded.CNPJDados;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 @Entity
 @Table(name = "EMPRESA")
@@ -24,11 +19,14 @@ public class Empresa {
     @Column(name = "STATUS")
     private ConsultaStatus status;
 
+    @Column(name = "DATA_ULTIMA_ATUALIZACAO_RECEITAL_FEDERAL")
+    private Date dataUltimaAtualizacaoReceitaFederal;
+
+    @Column(name = "DATA_ULTIMA_ATUALIZACAO_SINTEGRA")
+    private Date dataUltimaAtualizacaoSintegra;
+
     @Column(name = "CONSULTA_DATA_CRIACAO")
     private Date consultaDataCriacao;
-
-    @Column(name = "CONSULTA_DATA_FINALIZACAO")
-    private Date consultaDataFinalizacao;
 
     @Column(name = "CNPJ", unique = true)
     private String cnpj;
@@ -198,11 +196,19 @@ public class Empresa {
         this.consultaDataCriacao = consultaDataCriacao;
     }
 
-    public Date getConsultaDataFinalizacao() {
-        return consultaDataFinalizacao;
+    public Date getDataUltimaAtualizacaoReceitaFederal() {
+        return dataUltimaAtualizacaoReceitaFederal;
     }
 
-    public void setConsultaDataFinalizacao(Date consultaDataFinalizacao) {
-        this.consultaDataFinalizacao = consultaDataFinalizacao;
+    public void setDataUltimaAtualizacaoReceitaFederal(Date dataUltimaAtualizacaoReceitaFederal) {
+        this.dataUltimaAtualizacaoReceitaFederal = dataUltimaAtualizacaoReceitaFederal;
+    }
+
+    public Date getDataUltimaAtualizacaoSintegra() {
+        return dataUltimaAtualizacaoSintegra;
+    }
+
+    public void setDataUltimaAtualizacaoSintegra(Date dataUltimaAtualizacaoSintegra) {
+        this.dataUltimaAtualizacaoSintegra = dataUltimaAtualizacaoSintegra;
     }
 }

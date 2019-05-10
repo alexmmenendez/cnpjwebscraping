@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
-import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ConsultaOutput {
@@ -15,7 +14,10 @@ public class ConsultaOutput {
     private Date dataConsultaCriacao;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", locale = "pt-BR", timezone = "Brazil/East")
-    private Date dataConsultaFinalizacao;
+    private Date ultimaAtualizacaoReceitaFederal;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", locale = "pt-BR", timezone = "Brazil/East")
+    private Date ultimaAtualizacaoSintegra;
 
     private ConsultaStatus status;
 
@@ -27,9 +29,10 @@ public class ConsultaOutput {
 
     public ConsultaOutput(Empresa empresa) {
         this.setDataConsultaCriacao(empresa.getConsultaDataCriacao());
-        this.setDataConsultaFinalizacao(empresa.getConsultaDataFinalizacao());
         this.setStatus(empresa.getStatus());
         this.setEmpresa(new EmpresaOutput(empresa));
+        this.setUltimaAtualizacaoReceitaFederal(empresa.getDataUltimaAtualizacaoReceitaFederal());
+        this.setUltimaAtualizacaoSintegra(empresa.getDataUltimaAtualizacaoSintegra());
     }
 
     public Date getDataConsultaCriacao() {
@@ -38,14 +41,6 @@ public class ConsultaOutput {
 
     public void setDataConsultaCriacao(Date dataConsultaCriacao) {
         this.dataConsultaCriacao = dataConsultaCriacao;
-    }
-
-    public Date getDataConsultaFinalizacao() {
-        return dataConsultaFinalizacao;
-    }
-
-    public void setDataConsultaFinalizacao(Date dataConsultaFinalizacao) {
-        this.dataConsultaFinalizacao = dataConsultaFinalizacao;
     }
 
     public ConsultaStatus getStatus() {
@@ -62,6 +57,23 @@ public class ConsultaOutput {
 
     public void setEmpresa(EmpresaOutput empresa) {
         this.empresa = empresa;
+    }
+
+
+    public Date getUltimaAtualizacaoReceitaFederal() {
+        return ultimaAtualizacaoReceitaFederal;
+    }
+
+    public void setUltimaAtualizacaoReceitaFederal(Date ultimaAtualizacaoReceitaFederal) {
+        this.ultimaAtualizacaoReceitaFederal = ultimaAtualizacaoReceitaFederal;
+    }
+
+    public Date getUltimaAtualizacaoSintegra() {
+        return ultimaAtualizacaoSintegra;
+    }
+
+    public void setUltimaAtualizacaoSintegra(Date ultimaAtualizacaoSintegra) {
+        this.ultimaAtualizacaoSintegra = ultimaAtualizacaoSintegra;
     }
 }
 

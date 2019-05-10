@@ -62,7 +62,7 @@ public class SESintegraServiceWorker implements SintegraServiceWorker {
         String inscricaoEstadual = FormatadorString.removePontuacao(document.select("table tbody table font").get(4).html().trim());
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
-            throw new Exception("Não é inscricao municipal");
+            return new SintegraServiceWorkerResponse(document, "Não possui.");
         }
 
         return new SintegraServiceWorkerResponse(document, inscricaoEstadual);

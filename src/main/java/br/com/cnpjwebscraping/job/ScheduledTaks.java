@@ -50,9 +50,12 @@ public class ScheduledTaks {
 
                     empresa.setInscricaoEstadual(inscricaoEstadual);
 
+                    empresa.setDataUltimaAtualizacaoSintegra(new Date());
+
                     empresa.setStatus(ConsultaStatus.CONCLUIDA_SINTEGRA);
 
                     empresaService.salvar(empresa);
+
                 } else {
                     empresa.setStatus(ConsultaStatus.CONCLUIDO);
                     empresaService.salvar(empresa);
@@ -87,7 +90,7 @@ public class ScheduledTaks {
 
                 empresaService.setDados(empresa, serviceWorkerResponse.getDocument());
 
-                empresa.setConsultaDataFinalizacao(new Date());
+                empresa.setDataUltimaAtualizacaoReceitaFederal(new Date());
 
                 empresa.setStatus(ConsultaStatus.CONCLUIDA_RECEITA_FEDERAL);
 

@@ -63,7 +63,7 @@ public class ESSintegraServiceWorker implements SintegraServiceWorker {
         String inscricaoEstadual = FormatadorString.removePontuacao(document.select("table tbody tr td .valor").get(1).text());
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
-            return new SintegraServiceWorkerResponse(document, null);
+            return new SintegraServiceWorkerResponse(document, "Não possui.");
         }
 
         return new SintegraServiceWorkerResponse(document, inscricaoEstadual);
