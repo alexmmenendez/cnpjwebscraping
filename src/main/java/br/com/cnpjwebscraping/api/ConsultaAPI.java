@@ -6,7 +6,6 @@ import br.com.cnpjwebscraping.hardcoded.ResponseError;
 import br.com.cnpjwebscraping.input.wrapper.ConsultaInputWrapper;
 import br.com.cnpjwebscraping.output.ResponseErrorOutput;
 import br.com.cnpjwebscraping.output.wrapper.ConsultaOutputWrapper;
-import br.com.cnpjwebscraping.service.domain.CidadeService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
 import br.com.cnpjwebscraping.service.worker.trt.TRT02ServiceWorker;
 import br.com.cnpjwebscraping.util.FormatadorString;
@@ -18,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -35,7 +33,7 @@ public class ConsultaAPI {
     private TRT02ServiceWorker trt02ServiceWorker;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> nova(@Valid @RequestBody ConsultaInputWrapper consultaInputWrapper, BindingResult bindingResult, HttpServletRequest request) {
+    public ResponseEntity<?> nova(@Valid @RequestBody ConsultaInputWrapper consultaInputWrapper, BindingResult bindingResult) {
 
         //Verifica erros do binding
         if (bindingResult.hasErrors()) {
@@ -60,7 +58,7 @@ public class ConsultaAPI {
 
         }
 
-        return ResponseEntity.accepted().body(new ConsultaOutputWrapper(empresa));
+        return ResponseEntity.ok().body(new ConsultaOutputWrapper(empresa));
 
     }
 
@@ -99,14 +97,14 @@ public class ConsultaAPI {
 
                     empresa = empresaService.salvar(empresa);
 
-                    return ResponseEntity.accepted().body(new ConsultaOutputWrapper(empresa));
+                    return ResponseEntity.ok().body(new ConsultaOutputWrapper(empresa));
 
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
                 }
             } else {
-                return ResponseEntity.accepted().body(new ConsultaOutputWrapper(empresa));
+                return ResponseEntity.ok().body(new ConsultaOutputWrapper(empresa));
             }
 
         } else {
@@ -117,7 +115,7 @@ public class ConsultaAPI {
                 Empresa empresa = new Empresa();
                 empresa.setRazaoSocial(nome);
 
-                return ResponseEntity.accepted().body(new ConsultaOutputWrapper(empresa));
+                return ResponseEntity.ok().body(new ConsultaOutputWrapper(empresa));
 
             } catch (Exception e) {
                 e.printStackTrace();

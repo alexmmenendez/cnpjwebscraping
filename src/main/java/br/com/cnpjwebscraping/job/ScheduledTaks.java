@@ -27,7 +27,7 @@ public class ScheduledTaks {
     @Autowired
     private CidadeService cidadeService;
 
-    @Scheduled(cron = "0 0/2 * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     public void jobConsultaSintegra() {
         List<Empresa> empresas = empresaService.buscarPorStatusEm(Arrays.asList(ConsultaStatus.CONCLUIDA_RECEITA_FEDERAL, ConsultaStatus.FALHA_CONSULTA_SINTEGRA));
 
@@ -71,7 +71,7 @@ public class ScheduledTaks {
         }
     }
 
-    @Scheduled(cron = "0 0/2 * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     public void jobConsulta() {
         List<Empresa> empresas = empresaService.buscarPorStatusEm(Arrays.asList(ConsultaStatus.NOVA, ConsultaStatus.FALHA_CONSULTA_RECEITA_FEDERAL));
 
