@@ -59,6 +59,8 @@ public class EmpresaService {
 
         Map<CNPJDados, String> dados = new HashMap<>();
 
+        System.out.println(document.html());
+
         List<Element> elements = document.select("font");
 
         for (int i = 0; i < elements.size(); i++) {

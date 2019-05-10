@@ -9,7 +9,8 @@ public enum ConsultaStatus {
 	CONCLUIDA_RECEITA_FEDERAL("Consulta da Receita Federal concluida"),
 	CONCLUIDA_SINTEGRA("Consulta da Sintegra concluida"),
 	FALHA_CONSULTA_RECEITA_FEDERAL("Falha"),
-	FALHA_CONSULTA_SINTEGRA("Falha");
+	FALHA_CONSULTA_SINTEGRA("Falha"),
+	CONCLUIDO("Concluido");
 
 	private String descricao;
 

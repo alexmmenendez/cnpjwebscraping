@@ -12,7 +12,11 @@ public class SintegraServiceWorkerFactory {
     private static final String SUFFIX = "SintegraServiceWorker";
 
 
-    public static SintegraServiceWorker identificarWorker(Empresa empresa) {
+    public static SintegraServiceWorker identificarWorker(Empresa empresa) throws Exception {
+
+        if (empresa.getCidade() == null) {
+            throw new Exception("Cidade not found");
+        }
 
         String uf = empresa.getCidade().getEstado().getUf();
 
