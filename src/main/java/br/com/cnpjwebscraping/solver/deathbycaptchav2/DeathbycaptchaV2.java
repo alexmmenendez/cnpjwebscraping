@@ -1,13 +1,14 @@
 package br.com.cnpjwebscraping.solver.deathbycaptchav2;
 
+import br.com.cnpjwebscraping.hardcoded.ParametroConfiguracao;
 import br.com.cnpjwebscraping.logger.DebugHelper;
+import br.com.cnpjwebscraping.service.domain.ConfiguracaoService;
 import br.com.cnpjwebscraping.solver.CaptchaProcessed;
 import br.com.cnpjwebscraping.solver.CaptchaSolver;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.client.Captcha;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.client.HttpClient;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.exception.DeathbycaptchaException;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.client.Client;
-import br.com.cnpjwebscraping.solver.deathbycaptchav2.properties.DeathbycaptchaProperties;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
 import org.apache.commons.io.FileUtils;
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class DeathbycaptchaV2 implements CaptchaSolver {
 
 	@Autowired
-	private DeathbycaptchaProperties properties;
+	private ConfiguracaoService configuracaoService;
 
 	@Override
 	public CaptchaProcessed solveImageCaptcha(TextCaptchaRequest textCaptchaRequest) throws DeathbycaptchaException {
@@ -28,7 +29,11 @@ public class DeathbycaptchaV2 implements CaptchaSolver {
 
 		CaptchaProcessed captchaProcessed = new CaptchaProcessed();
 
-		Client client = new HttpClient(properties.getLogin(), properties.getPassword());
+		String login = configuracaoService.buscarPorParametro(ParametroConfiguracao.DEATHBYCAPTCHA_LOGIN).getValor();
+
+		String password = configuracaoService.buscarPorParametro(ParametroConfiguracao.DEATHBYCAPTCHA_PASSWORD).getValor();
+
+		Client client = new HttpClient(login, password);
 		client.isVerbose = true;
 
 		try {

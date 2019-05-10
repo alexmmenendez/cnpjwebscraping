@@ -1,12 +1,12 @@
 package br.com.cnpjwebscraping.solver.anticaptcha;
 
+import br.com.cnpjwebscraping.hardcoded.ParametroConfiguracao;
+import br.com.cnpjwebscraping.service.domain.ConfiguracaoService;
 import br.com.cnpjwebscraping.solver.anticaptcha.api.NoCaptchaProxyless;
 import br.com.cnpjwebscraping.solver.anticaptcha.helper.DebugHelper;
-import br.com.cnpjwebscraping.solver.anticaptcha.properties.AnticaptchaProperties;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -15,7 +15,7 @@ import java.net.URL;
 public class Anticaptcha implements CaptchaSolver {
 
 	@Autowired
-	private AnticaptchaProperties properties;
+	private ConfiguracaoService configuracaoService;
 
 	@Override
 	public CaptchaProcessed solve(TextCaptchaRequest textCaptchaRequest) {
@@ -35,7 +35,7 @@ public class Anticaptcha implements CaptchaSolver {
 		NoCaptchaProxyless api = new NoCaptchaProxyless();
 		try {
 			//api.setClientKey(properties.getClientKey());
-			api.setClientKey(properties.getClientKey());
+			api.setClientKey(configuracaoService.buscarPorParametro(ParametroConfiguracao.ANTICAPTCHA_CLIENT_KEY).getValor());
 			api.setWebsiteUrl(new URL(reCaptchaRequest.getPageUrl()));
 			api.setWebsiteKey(reCaptchaRequest.getGoogleKey());
 			
