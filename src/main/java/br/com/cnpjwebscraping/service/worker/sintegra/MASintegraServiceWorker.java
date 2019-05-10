@@ -81,7 +81,7 @@ public class MASintegraServiceWorker implements SintegraServiceWorker {
 
     @Override
     public String resolveCaptcha() {
-        return new Anticaptcha().solve(new ReCaptchaRequest(googleKey, URL)).getValue();
+        return anticaptcha.solve(new ReCaptchaRequest(googleKey, URL)).getValue();
     }
 
     public static void main(String[] args) throws Exception {
