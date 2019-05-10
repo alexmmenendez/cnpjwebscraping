@@ -90,6 +90,10 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
 
         FileUtils.writeByteArrayToFile(file, response.bodyAsBytes());
 
-        return deathbycaptchaV2.solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
+        String result = deathbycaptchaV2.solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
+
+        FileUtils.deleteQuietly(file);
+
+        return result;
     }
 }

@@ -1,7 +1,9 @@
 package br.com.cnpjwebscraping.service.worker.sintegra;
 
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
+import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.DeathbycaptchaV2;
+import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
 import br.com.cnpjwebscraping.util.FormatadorString;
 import br.com.cnpjwebscraping.util.TrustUtil;
@@ -18,17 +20,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class SESintegraServiceWorker implements SintegraServiceWorker {
+public class MTSintegraServiceWorker implements SintegraServiceWorker {
 
-    private static final String URL = "https://security.sefaz.se.gov.br/SIC/sintegra/index.jsp";
-
-    private static final String URL_BASE = "https://security.sefaz.se.gov.br/SIC/sintegra/";
+    private static final String URL = "https://www.sefaz.mt.gov.br/sid/consulta/infocadastral/consultar/publica";
 
     private Connection.Response response;
 
     private Map<String, String> cookies;
-
-    private Document document;
 
     @Autowired
     private DeathbycaptchaV2 deathbycaptchaV2;
@@ -38,28 +36,21 @@ public class SESintegraServiceWorker implements SintegraServiceWorker {
 
         TrustUtil.setTrustAllCerts();
 
-        response = Jsoup.connect(URL).execute();
+        cookies = Jsoup.connect(URL).execute().cookies();
 
-        cookies = response.cookies();
-
-        document = response.parse();
-
-        String captcha = resolveCaptcha();
-
-        response = Jsoup.connect("https://security.sefaz.se.gov.br/SIC/sintegra/result.jsp")
-                .data("AppName", document.select("[name=AppName]").val())
-                .data("TransId", document.select("[name=TransId]").val())
-                .data("cdCnpj", cnpj)
-                .data("cdPessoaContribuinte", "")
-                .data("dsImagem", captcha)
-                .data("cdImagem", document.select("[name=cdImagem]").val())
+        response = Jsoup.connect(URL)
                 .method(Connection.Method.POST)
                 .cookies(cookies)
+                .data("opcao", "2")
+                .data("numero", cnpj)
+                .data("captchaDigitado", resolveCaptcha())
+                .data("pagn", "resultado")
+                .data("captcha", "telaComCaptcha")
                 .execute();
 
-        document = response.parse();
+        Document document = response.parse();
 
-        String inscricaoEstadual = FormatadorString.removePontuacao(document.select("table tbody table font").get(4).html().trim());
+        String inscricaoEstadual = FormatadorString.removePontuacao(document.select("body table tbody tr td.info").get(1).text());
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
             return new SintegraServiceWorkerResponse(document, "Não possui.");
@@ -71,9 +62,7 @@ public class SESintegraServiceWorker implements SintegraServiceWorker {
     @Override
     public String resolveCaptcha() throws Exception {
 
-        String imageSrc = URL_BASE + document.select("form img").first().attr("src");
-
-        response = Jsoup.connect(imageSrc)
+        response = Jsoup.connect("https://www.sefaz.mt.gov.br/sid/consulta/geradorcaracteres")
                 .cookies(cookies)
                 .ignoreContentType(true)
                 .execute();
@@ -82,11 +71,19 @@ public class SESintegraServiceWorker implements SintegraServiceWorker {
 
         FileUtils.writeByteArrayToFile(file, response.bodyAsBytes());
 
-        String result = deathbycaptchaV2.solveImageCaptcha(new TextCaptchaRequest(file)).getValue().toLowerCase();
+        String result = deathbycaptchaV2.solveImageCaptcha(new TextCaptchaRequest(file)).getValue();
 
         FileUtils.deleteQuietly(file);
 
         return result;
+    }
+
+    public static void main(String[] args) throws Exception {
+        SintegraServiceWorkerResponse response = new MTSintegraServiceWorker().consultar("07526557001939");
+
+        System.out.println(response.getDocument().html());
+
+        System.out.println(response.getInscricaoEstadual());
     }
 
 }
