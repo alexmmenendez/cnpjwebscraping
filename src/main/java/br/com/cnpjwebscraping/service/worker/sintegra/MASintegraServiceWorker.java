@@ -2,6 +2,7 @@ package br.com.cnpjwebscraping.service.worker.sintegra;
 
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
 import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
+import br.com.cnpjwebscraping.solver.anticaptcha.exception.AnticaptchaException;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.util.FormatadorString;
 import br.com.cnpjwebscraping.util.TrustUtil;
@@ -80,8 +81,8 @@ public class MASintegraServiceWorker implements SintegraServiceWorker {
     }
 
     @Override
-    public String resolveCaptcha() {
-        return anticaptcha.solve(new ReCaptchaRequest(googleKey, URL)).getValue();
+    public String resolveCaptcha() throws AnticaptchaException {
+        return anticaptcha.solveRecaptcha(new ReCaptchaRequest(googleKey, URL)).getValue();
     }
 
     public static void main(String[] args) throws Exception {

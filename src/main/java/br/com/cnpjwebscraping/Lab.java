@@ -2,6 +2,7 @@ package br.com.cnpjwebscraping;
 
 import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
+import br.com.cnpjwebscraping.solver.anticaptcha.exception.AnticaptchaException;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.util.TrustUtil;
 import org.jsoup.Connection;
@@ -35,7 +36,7 @@ public class Lab {
 		Map<String, String> cookies = response.cookies();
 
 		String googleKey = response.parse().select(".g-recaptcha").attr("data-sitekey");
-		String recaptcha = new Anticaptcha().solve(new ReCaptchaRequest(googleKey, URL_BASE + "Cnpjreva_Solicitacao2.asp")).getValue();
+		String recaptcha = new Anticaptcha().solveRecaptcha(new ReCaptchaRequest(googleKey, URL_BASE + "Cnpjreva_Solicitacao2.asp")).getValue();
 
 		Map<String, String> data = new HashMap<>();
 		data.put("origem", "comprovante");

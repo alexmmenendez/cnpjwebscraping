@@ -1,5 +1,6 @@
 package br.com.cnpjwebscraping.solver.anticaptcha.api;
 
+import br.com.cnpjwebscraping.solver.anticaptcha.api.response.TaskResultResponse;
 import br.com.cnpjwebscraping.solver.anticaptcha.helper.DebugHelper;
 import br.com.cnpjwebscraping.solver.anticaptcha.reader.AnticaptchaBase;
 import br.com.cnpjwebscraping.solver.anticaptcha.reader.IAnticaptchaTaskProtocol;
@@ -43,7 +44,7 @@ public class NoCaptchaProxyless extends AnticaptchaBase implements IAnticaptchaT
         return postData;
     }
 
-    public String getTaskSolution() {
-        return taskInfo.getSolution().getGRecaptchaResponse();
+    public TaskResultResponse.SolutionData getTaskSolution() {
+        return taskInfo.getSolution();
     }
 }

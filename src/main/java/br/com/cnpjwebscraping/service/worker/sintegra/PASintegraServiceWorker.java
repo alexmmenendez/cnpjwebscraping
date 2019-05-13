@@ -10,11 +10,9 @@ import br.com.cnpjwebscraping.util.FormatadorString;
 import br.com.cnpjwebscraping.util.TrustUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.ThreadUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +21,11 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class ESSintegraServiceWorker implements SintegraServiceWorker {
+public class PASintegraServiceWorker implements SintegraServiceWorker {
 
-    private static final String URL = "http://www.sintegra.es.gov.br/";
+    private static final String URL = "https://app.sefa.pa.gov.br/sintegra/";
 
-    private String googleKey;
+    private Document document;
 
     @Autowired
     private Anticaptcha anticaptcha;
@@ -35,49 +33,45 @@ public class ESSintegraServiceWorker implements SintegraServiceWorker {
     @Override
     public SintegraServiceWorkerResponse consultar(String cnpj) throws Exception {
 
-        Connection.Response response;
-
-        Map<String, String> cookies;
-
-        Document document;
-
         TrustUtil.setTrustAllCerts();
 
-        response = Jsoup.connect(URL).execute();
+        Connection.Response response;
 
-        cookies = response.cookies();
+        response = Jsoup.connect(URL).timeout(60000).execute();
+
+        Map<String, String> cookies = response.cookies();
 
         document = response.parse();
 
-        googleKey = document.select(".g-recaptcha").attr("data-sitekey");
-
-        response = Jsoup.connect("http://www.sintegra.es.gov.br/resultado.php")
+        response = Jsoup.connect("https://app.sefa.pa.gov.br/sintegra/consulta.do")
                 .method(Connection.Method.POST)
                 .cookies(cookies)
-                .data("num_cnpj", cnpj)
-                .data("g-recaptcha-response", resolveCaptcha())
-                .data("botao", "Consultar")
+                .timeout(60000)
+                .data("CNPJ", cnpj)
+                .data("CODIGO", resolveCaptcha())
                 .execute();
 
-        document = response.parse();
+        Document document = response.parse();
 
-        String inscricaoEstadual = FormatadorString.removePontuacao(document.select("table tbody tr td .valor").get(1).text());
+        String inscricaoEstadual = FormatadorString.removePontuacao(document.select(".td-conteudo").get(2).text());
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
-            return new SintegraServiceWorkerResponse(document, "Não possui.");
+            throw new Exception("Inscricao not found");
         }
 
         return new SintegraServiceWorkerResponse(document, inscricaoEstadual);
-
     }
 
     @Override
     public String resolveCaptcha() throws AnticaptchaException {
+        String googleKey = document.select(".g-recaptcha").attr("data-sitekey");
+
         return anticaptcha.solveRecaptcha(new ReCaptchaRequest(googleKey, URL)).getValue();
     }
 
     public static void main(String[] args) throws Exception {
-        SintegraServiceWorkerResponse response = new ESSintegraServiceWorker().consultar("07526557001181");
+
+        SintegraServiceWorkerResponse response = new PASintegraServiceWorker().consultar("07526557002820");
 
         System.out.println(response.getDocument().html());
 
