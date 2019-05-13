@@ -3,6 +3,7 @@ package br.com.cnpjwebscraping.service.worker.sintegra;
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.DeathbycaptchaV2;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
+import br.com.cnpjwebscraping.util.TrustUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
@@ -32,6 +33,8 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
 
     @Override
     public SintegraServiceWorkerResponse consultar(String cnpj) throws Exception {
+
+        TrustUtil.setTrustAllCerts();
 
         response = Jsoup.connect(URL).execute();
 
