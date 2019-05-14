@@ -1,5 +1,6 @@
 package br.com.cnpjwebscraping.service.worker.sintegra.response;
 
+import br.com.cnpjwebscraping.hardcoded.ResultScraping;
 import org.jsoup.nodes.Document;
 
 public class SintegraServiceWorkerResponse {
@@ -8,12 +9,15 @@ public class SintegraServiceWorkerResponse {
 
 	private String inscricaoEstadual;
 
+	private ResultScraping result;
+
 	public SintegraServiceWorkerResponse() {
 	}
 
-	public SintegraServiceWorkerResponse(Document document, String inscricaoEstadual) {
+	public SintegraServiceWorkerResponse(Document document, ResultScraping result, String inscricaoEstadual) {
 		this.setInscricaoEstadual(inscricaoEstadual);
 		this.document = document;
+		this.result = result;
 	}
 
 	public Document getDocument() {
@@ -30,5 +34,13 @@ public class SintegraServiceWorkerResponse {
 
 	public void setInscricaoEstadual(String inscricaoEstadual) {
 		this.inscricaoEstadual = inscricaoEstadual;
+	}
+
+	public ResultScraping getResult() {
+		return result;
+	}
+
+	public void setResult(ResultScraping result) {
+		this.result = result;
 	}
 }

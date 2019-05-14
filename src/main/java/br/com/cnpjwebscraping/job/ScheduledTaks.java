@@ -2,6 +2,7 @@ package br.com.cnpjwebscraping.job;
 
 import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
+import br.com.cnpjwebscraping.hardcoded.ResultScraping;
 import br.com.cnpjwebscraping.service.domain.CidadeService;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
 import br.com.cnpjwebscraping.service.worker.receitafederal.CNPJServiceWorker;
@@ -48,7 +49,13 @@ public class ScheduledTaks {
 
                     String inscricaoEstadual = response.getInscricaoEstadual();
 
-                    empresa.setInscricaoEstadual(inscricaoEstadual);
+                    ResultScraping result = response.getResult();
+
+                    if (result.equals(ResultScraping.NAO_POSSUI)) {
+                        empresa.setInscricaoEstadual(result.getDescricao());
+                    } else {
+                        empresa.setInscricaoEstadual(inscricaoEstadual);
+                    }
 
                     empresa.setDataUltimaAtualizacaoSintegra(new Date());
 

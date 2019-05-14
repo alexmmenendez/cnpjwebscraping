@@ -1,5 +1,6 @@
 package br.com.cnpjwebscraping.service.worker.sintegra;
 
+import br.com.cnpjwebscraping.hardcoded.ResultScraping;
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.DeathbycaptchaV2;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
@@ -40,13 +41,11 @@ public class MSSintegraServiceWorker implements SintegraServiceWorker {
                 .cookies(cookies)
                 .data("captcha", resolveCaptcha())
                 .data("ie", "")
-                .data("cnpj", "07.526.557/0014-24")
+                .data("cnpj", cnpj)
                 .ignoreHttpErrors(true)
                 .execute();
 
         Document document = response.parse();
-
-        System.out.println(document.html());
 
         String inscricaoEstadual = document.select("#inscricaoEstadual").val();
 
@@ -54,7 +53,7 @@ public class MSSintegraServiceWorker implements SintegraServiceWorker {
             throw new Exception("Inscricao not found");
         }
 
-        return new SintegraServiceWorkerResponse(document, inscricaoEstadual);
+        return new SintegraServiceWorkerResponse(document, ResultScraping.LOCALIZADO, inscricaoEstadual);
     }
 
     @Override

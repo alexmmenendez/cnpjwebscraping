@@ -1,5 +1,6 @@
 package br.com.cnpjwebscraping.service.worker.sintegra;
 
+import br.com.cnpjwebscraping.hardcoded.ResultScraping;
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
 import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.DeathbycaptchaV2;
@@ -53,10 +54,10 @@ public class MTSintegraServiceWorker implements SintegraServiceWorker {
         String inscricaoEstadual = FormatadorString.removePontuacao(document.select("body table tbody tr td.info").get(1).text());
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
-            return new SintegraServiceWorkerResponse(document, "Não possui.");
+            throw new Exception("Inscricao not found");
         }
 
-        return new SintegraServiceWorkerResponse(document, inscricaoEstadual);
+        return new SintegraServiceWorkerResponse(document, ResultScraping.LOCALIZADO, inscricaoEstadual);
     }
 
     @Override

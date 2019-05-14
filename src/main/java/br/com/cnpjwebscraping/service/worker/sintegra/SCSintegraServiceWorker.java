@@ -1,5 +1,6 @@
 package br.com.cnpjwebscraping.service.worker.sintegra;
 
+import br.com.cnpjwebscraping.hardcoded.ResultScraping;
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.DeathbycaptchaV2;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
@@ -64,7 +65,7 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
         }
 
         if (StringUtils.containsIgnoreCase(document.html(), "CNPJ NÃO CADASTRADO NO CAD.ICMS PR")) {
-            return new SintegraServiceWorkerResponse(document, "CNPJ NÃO CADASTRADO NO CAD.ICMS PR");
+            return new SintegraServiceWorkerResponse(document, ResultScraping.NAO_POSSUI, null);
         }
 
         Element table = document.select("form table font font font").first();
@@ -72,10 +73,10 @@ public class SCSintegraServiceWorker implements SintegraServiceWorker {
         String inscricaoEstadual = table.html().trim();
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
-            return new SintegraServiceWorkerResponse(document, "Não possui.");
+            throw new Exception("Inscricao not found");
         }
 
-        return new SintegraServiceWorkerResponse(document, inscricaoEstadual);
+        return new SintegraServiceWorkerResponse(document, ResultScraping.LOCALIZADO, inscricaoEstadual);
     }
 
     @Override

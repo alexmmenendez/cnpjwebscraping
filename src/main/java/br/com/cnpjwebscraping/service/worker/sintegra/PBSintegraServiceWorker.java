@@ -1,5 +1,6 @@
 package br.com.cnpjwebscraping.service.worker.sintegra;
 
+import br.com.cnpjwebscraping.hardcoded.ResultScraping;
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
 import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
 import br.com.cnpjwebscraping.solver.anticaptcha.exception.AnticaptchaException;
@@ -56,7 +57,7 @@ public class PBSintegraServiceWorker implements SintegraServiceWorker {
             throw new Exception("Inscricao not found");
         }
 
-        return new SintegraServiceWorkerResponse(document, inscricaoEstadual);
+        return new SintegraServiceWorkerResponse(document, ResultScraping.LOCALIZADO, inscricaoEstadual);
     }
 
     @Override

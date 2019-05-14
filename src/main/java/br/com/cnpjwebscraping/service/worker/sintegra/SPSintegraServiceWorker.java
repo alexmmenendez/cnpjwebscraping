@@ -1,5 +1,6 @@
 package br.com.cnpjwebscraping.service.worker.sintegra;
 
+import br.com.cnpjwebscraping.hardcoded.ResultScraping;
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
 import br.com.cnpjwebscraping.solver.deathbycaptchav2.DeathbycaptchaV2;
 import br.com.cnpjwebscraping.solver.request.TextCaptchaRequest;
@@ -70,13 +71,17 @@ public class SPSintegraServiceWorker implements SintegraServiceWorker {
 
         document = response.parse();
 
+        if (StringUtils.containsIgnoreCase(document.html(), "Não existem registros que atendem ao critério de filtro definido.")) {
+            return new SintegraServiceWorkerResponse(document, ResultScraping.NAO_POSSUI, null);
+        }
+
         String inscricaoEstadual = FormatadorString.removePontuacao(document.select(".dadoDetalhe").first().text());
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
             throw new Exception("Inscricao not found");
         }
 
-        return new SintegraServiceWorkerResponse(document, inscricaoEstadual);
+        return new SintegraServiceWorkerResponse(document, ResultScraping.LOCALIZADO, inscricaoEstadual);
     }
 
     @Override
@@ -104,7 +109,7 @@ public class SPSintegraServiceWorker implements SintegraServiceWorker {
 
     public static void main(String[] args) throws Exception {
 
-        SintegraServiceWorkerResponse response = new SPSintegraServiceWorker().consultar("01131570000183");
+        SintegraServiceWorkerResponse response = new SPSintegraServiceWorker().consultar("23522710000187");
 
         System.out.println(response.getDocument().html());
 
