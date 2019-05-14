@@ -63,12 +63,4 @@ public class GOSintegraServiceWorker implements SintegraServiceWorker {
         return null;
     }
 
-    public static void main(String[] args) throws Exception {
-        SintegraServiceWorkerResponse response = new GOSintegraServiceWorker().consultar("07526557000967");
-
-        System.out.println(response.getDocument().html());
-
-        System.out.println(response.getInscricaoEstadual());
-    }
-
 }

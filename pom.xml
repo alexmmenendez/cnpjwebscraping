@@ -49,38 +49,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Selenium Chrome Driver-->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-chrome-driver</artifactId>
-			<version>3.141.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-firefox-driver</artifactId>
-			<version>3.141.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>3.141.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-remote-driver</artifactId>
-			<version>3.141.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-api</artifactId>
-			<version>3.141.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<version>1.3.0.RELEASE</version>
-		</dependency>
-
 		<!--Commons-->
 		<dependency>
 			<groupId>commons-io</groupId>

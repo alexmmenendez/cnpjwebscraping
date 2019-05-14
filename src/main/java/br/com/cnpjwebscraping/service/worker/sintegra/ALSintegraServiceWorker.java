@@ -32,7 +32,7 @@ public class ALSintegraServiceWorker implements SintegraServiceWorker {
 
         JSONArray json = new JSONArray(document.body().html());
 
-        if (json.isEmpty()) {
+        if (json.isNull(0)) {
             return new SintegraServiceWorkerResponse(document, ResultScraping.NAO_POSSUI, null);
         }
 
@@ -49,14 +49,6 @@ public class ALSintegraServiceWorker implements SintegraServiceWorker {
     @Override
     public String resolveCaptcha() {
         return null;
-    }
-
-    public static void main(String[] args) throws Exception {
-        SintegraServiceWorkerResponse response = new ALSintegraServiceWorker().consultar("56228356011338");
-
-        System.out.println(response.getDocument().html());
-
-        System.out.println(response.getInscricaoEstadual());
     }
 
 }

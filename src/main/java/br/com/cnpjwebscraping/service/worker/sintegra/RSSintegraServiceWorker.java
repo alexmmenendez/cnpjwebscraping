@@ -3,7 +3,6 @@ package br.com.cnpjwebscraping.service.worker.sintegra;
 import br.com.cnpjwebscraping.hardcoded.ResultScraping;
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
 import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
-import br.com.cnpjwebscraping.solver.anticaptcha.exception.AnticaptchaException;
 import br.com.cnpjwebscraping.solver.request.ReCaptchaRequest;
 import br.com.cnpjwebscraping.util.FormatadorString;
 import br.com.cnpjwebscraping.util.TrustUtil;
@@ -68,13 +67,7 @@ public class RSSintegraServiceWorker implements SintegraServiceWorker {
         return anticaptcha.solveRecaptcha(new ReCaptchaRequest(googleKey, URL)).getValue();
     }
 
-    public static void main(String[] args) throws Exception {
-
-        SintegraServiceWorkerResponse response = new RSSintegraServiceWorker().consultar("07526557003710");
-
-        System.out.println(response.getDocument().html());
-
-        System.out.println(response.getInscricaoEstadual());
+    public void setAnticaptcha(Anticaptcha anticaptcha) {
+        this.anticaptcha = anticaptcha;
     }
-
 }

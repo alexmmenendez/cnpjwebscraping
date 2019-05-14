@@ -75,6 +75,8 @@ public class SPSintegraServiceWorker implements SintegraServiceWorker {
             return new SintegraServiceWorkerResponse(document, ResultScraping.NAO_POSSUI, null);
         }
 
+        System.out.println(document.html());
+
         String inscricaoEstadual = FormatadorString.removePontuacao(document.select(".dadoDetalhe").first().text());
 
         if (!StringUtils.isNumeric(inscricaoEstadual)) {
@@ -107,13 +109,7 @@ public class SPSintegraServiceWorker implements SintegraServiceWorker {
         return result;
     }
 
-    public static void main(String[] args) throws Exception {
-
-        SintegraServiceWorkerResponse response = new SPSintegraServiceWorker().consultar("23522710000187");
-
-        System.out.println(response.getDocument().html());
-
-        System.out.println(response.getInscricaoEstadual());
+    public void setDeathbycaptchaV2(DeathbycaptchaV2 deathbycaptchaV2) {
+        this.deathbycaptchaV2 = deathbycaptchaV2;
     }
-
 }

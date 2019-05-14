@@ -77,12 +77,7 @@ public class ESSintegraServiceWorker implements SintegraServiceWorker {
         return anticaptcha.solveRecaptcha(new ReCaptchaRequest(googleKey, URL)).getValue();
     }
 
-    public static void main(String[] args) throws Exception {
-        SintegraServiceWorkerResponse response = new ESSintegraServiceWorker().consultar("07526557001181");
-
-        System.out.println(response.getDocument().html());
-
-        System.out.println(response.getInscricaoEstadual());
+    public void setAnticaptcha(Anticaptcha anticaptcha) {
+        this.anticaptcha = anticaptcha;
     }
-
 }

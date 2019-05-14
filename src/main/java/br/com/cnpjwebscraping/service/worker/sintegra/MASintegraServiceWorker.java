@@ -86,12 +86,8 @@ public class MASintegraServiceWorker implements SintegraServiceWorker {
         return anticaptcha.solveRecaptcha(new ReCaptchaRequest(googleKey, URL)).getValue();
     }
 
-    public static void main(String[] args) throws Exception {
-        SintegraServiceWorkerResponse response = new MASintegraServiceWorker().consultar("07526557005683");
-
-        System.out.println(response.getDocument().html());
-
-        System.out.println(response.getInscricaoEstadual());
+    public void setAnticaptcha(Anticaptcha anticaptcha) {
+        this.anticaptcha = anticaptcha;
     }
 
 }

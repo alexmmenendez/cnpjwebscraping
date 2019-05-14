@@ -90,4 +90,7 @@ public class SESintegraServiceWorker implements SintegraServiceWorker {
         return result;
     }
 
+    public void setDeathbycaptchaV2(DeathbycaptchaV2 deathbycaptchaV2) {
+        this.deathbycaptchaV2 = deathbycaptchaV2;
+    }
 }

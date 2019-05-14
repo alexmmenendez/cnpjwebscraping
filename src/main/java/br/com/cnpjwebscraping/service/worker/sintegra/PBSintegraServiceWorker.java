@@ -67,13 +67,7 @@ public class PBSintegraServiceWorker implements SintegraServiceWorker {
         return anticaptcha.solveRecaptcha(new ReCaptchaRequest(googleKey, URL)).getValue();
     }
 
-    public static void main(String[] args) throws Exception {
-
-        SintegraServiceWorkerResponse response = new PBSintegraServiceWorker().consultar("07526557001343");
-
-        System.out.println(response.getDocument().html());
-
-        System.out.println(response.getInscricaoEstadual());
+    public void setAnticaptcha(Anticaptcha anticaptcha) {
+        this.anticaptcha = anticaptcha;
     }
-
 }

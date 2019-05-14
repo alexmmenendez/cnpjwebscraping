@@ -79,12 +79,8 @@ public class MTSintegraServiceWorker implements SintegraServiceWorker {
         return result;
     }
 
-    public static void main(String[] args) throws Exception {
-        SintegraServiceWorkerResponse response = new MTSintegraServiceWorker().consultar("07526557001939");
-
-        System.out.println(response.getDocument().html());
-
-        System.out.println(response.getInscricaoEstadual());
+    public void setDeathbycaptchaV2(DeathbycaptchaV2 deathbycaptchaV2) {
+        this.deathbycaptchaV2 = deathbycaptchaV2;
     }
 
 }

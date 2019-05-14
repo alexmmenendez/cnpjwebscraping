@@ -28,12 +28,14 @@ public class DeathbycaptchaV2 implements CaptchaSolver {
 		DebugHelper.out("Trying to solve the captcha by DeathByCaptcha", DebugHelper.Type.INFO);
 
 		CaptchaProcessed captchaProcessed = new CaptchaProcessed();
+/*
 
 		String login = configuracaoService.buscarPorParametro(ParametroConfiguracao.DEATHBYCAPTCHA_LOGIN).getValor();
 
 		String password = configuracaoService.buscarPorParametro(ParametroConfiguracao.DEATHBYCAPTCHA_PASSWORD).getValor();
+*/
 
-		Client client = new HttpClient(login, password);
+		Client client = new HttpClient("lopesprodrigo", "xsw2XSW@");
 		client.isVerbose = true;
 
 		try {

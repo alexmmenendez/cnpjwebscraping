@@ -42,7 +42,6 @@ public class MSSintegraServiceWorker implements SintegraServiceWorker {
                 .data("captcha", resolveCaptcha())
                 .data("ie", "")
                 .data("cnpj", cnpj)
-                .ignoreHttpErrors(true)
                 .execute();
 
         Document document = response.parse();
@@ -79,7 +78,14 @@ public class MSSintegraServiceWorker implements SintegraServiceWorker {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(new MSSintegraServiceWorker().consultar("07526557001424"));
+        SintegraServiceWorkerResponse response = new MSSintegraServiceWorker().consultar("07.526.557/0014-24");
+
+        System.out.println(response.getDocument());
+
+        System.out.println(response.getInscricaoEstadual());
     }
 
+    public void setDeathbycaptchaV2(DeathbycaptchaV2 deathbycaptchaV2) {
+        this.deathbycaptchaV2 = deathbycaptchaV2;
+    }
 }
