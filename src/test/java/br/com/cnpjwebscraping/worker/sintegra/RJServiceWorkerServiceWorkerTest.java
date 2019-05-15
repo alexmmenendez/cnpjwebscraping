@@ -18,7 +18,7 @@ public class RJServiceWorkerServiceWorkerTest extends ServiceWorkerIntegracaoTes
     @Test
     public void consultarSintegra() throws Exception {
 
-        String cnpjMock = "01.131.570/0002-64";
+        String cnpjMock = "01131570000264";
 
         worker.setDeathbycaptchaV2(new DeathbycaptchaV2());
 
