@@ -4,6 +4,7 @@ import br.com.cnpjwebscraping.domain.Empresa;
 import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 import br.com.cnpjwebscraping.hardcoded.ResponseError;
 import br.com.cnpjwebscraping.input.wrapper.ConsultaInputWrapper;
+import br.com.cnpjwebscraping.input.wrapper.SimpleConsultaInputWrapper;
 import br.com.cnpjwebscraping.output.ResponseErrorOutput;
 import br.com.cnpjwebscraping.output.wrapper.ConsultaOutputWrapper;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
@@ -63,17 +64,9 @@ public class ConsultaAPI {
     }
 
     @PostMapping(value = "/cpf-cnpj", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> consultar(@Valid @RequestBody String cpfcnpj, Errors errors) {
+    public ResponseEntity<?> consultar(@RequestBody SimpleConsultaInputWrapper consulta) {
 
-        if (errors.hasErrors()) {
-
-            return ResponseEntity.badRequest().body(errors.getAllErrors()
-                    .stream().map(x -> x.getDefaultMessage())
-                    .collect(Collectors.joining(",")));
-
-        }
-
-        cpfcnpj = FormatadorString.removePontuacao(cpfcnpj);
+        String cpfcnpj = FormatadorString.removePontuacao(consulta.getCpfcnpj());
 
         if (cpfcnpj.length() == 14) {
             Empresa empresa = empresaService.buscarPorCNPJ(cpfcnpj);
@@ -91,7 +84,7 @@ public class ConsultaAPI {
                 empresaService.salvar(empresa);
 
                 try {
-                    String nomeRazaoSocial = trt02ServiceWorker.consultaNomeRazaoSocial(cpfcnpj);
+                    String nomeRazaoSocial = trt02ServiceWorker.consultaNomeCompletoRazaoSocialPeloCPFCNPJ(cpfcnpj);
 
                     empresa.setRazaoSocial(nomeRazaoSocial);
 
@@ -110,7 +103,7 @@ public class ConsultaAPI {
         } else {
 
             try {
-                String nome = trt02ServiceWorker.consultaNomeRazaoSocial(cpfcnpj);
+                String nome = trt02ServiceWorker.consultaNomeCompletoRazaoSocialPeloCPFCNPJ(cpfcnpj);
 
                 Empresa empresa = new Empresa();
                 empresa.setRazaoSocial(nome);
@@ -119,7 +112,7 @@ public class ConsultaAPI {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return ResponseEntity.badRequest().body("error");
             }
         }
     }

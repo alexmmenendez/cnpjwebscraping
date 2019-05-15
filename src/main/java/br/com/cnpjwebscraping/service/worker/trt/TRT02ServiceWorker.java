@@ -8,9 +8,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TRT02ServiceWorker {
+public class TRT02ServiceWorker implements TRTServiceWorker {
 
-    public String consultaNomeRazaoSocial(String cpfCnpj) throws Exception {
+    @Override
+    public String consultaNomeCompletoRazaoSocialPeloCPFCNPJ(String cpfCnpj) throws Exception {
 
         Connection.Response response =
                 Jsoup.connect("https://aplicacoes10.trtsp.jus.br/certidao_trabalhista_eletronica/public/index.php/index/nome-cpf")
@@ -32,5 +33,4 @@ public class TRT02ServiceWorker {
             throw new Exception("Error");
         }
     }
-
 }

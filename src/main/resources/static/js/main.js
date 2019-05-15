@@ -88,7 +88,7 @@ function fire_ajax_submit() {
         type: "POST",
         contentType: "application/json",
         url: "/api/v1/cnpjwebscraping/consulta/cpf-cnpj",
-        data: JSON.stringify(cpfcnpj),
+        data: JSON.stringify({"cpfcnpj":cpfcnpj}),
         dataType: 'json',
         cache: false,
         timeout: 600000,
