@@ -1,8 +1,8 @@
 package br.com.cnpjwebscraping.worker.sintegra;
 
-import br.com.cnpjwebscraping.service.worker.sintegra.MGSintegraServiceWorker;
+import br.com.cnpjwebscraping.service.worker.sintegra.RJSintegraServiceWorker;
 import br.com.cnpjwebscraping.service.worker.sintegra.response.SintegraServiceWorkerResponse;
-import br.com.cnpjwebscraping.solver.anticaptcha.Anticaptcha;
+import br.com.cnpjwebscraping.solver.deathbycaptchav2.DeathbycaptchaV2;
 import br.com.cnpjwebscraping.worker.ServiceWorkerIntegracaoTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,21 +10,21 @@ import org.mockito.InjectMocks;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MGServiceWorkerServiceWorkerTest extends ServiceWorkerIntegracaoTest {
+public class RJServiceWorkerServiceWorkerTest extends ServiceWorkerIntegracaoTest {
 
     @InjectMocks
-    private MGSintegraServiceWorker worker;
+    private RJSintegraServiceWorker worker;
 
     @Test
     public void consultarSintegra() throws Exception {
 
-        String cnpjMock = "01131570000850";
+        String cnpjMock = "01.131.570/0002-64";
 
-        worker.setAnticaptcha(new Anticaptcha());
+        worker.setDeathbycaptchaV2(new DeathbycaptchaV2());
 
         SintegraServiceWorkerResponse response = worker.consultar(cnpjMock);
 
-        assertSintegraServiceWorkerResponse(response, "0027564920459");
+        assertSintegraServiceWorkerResponse(response, "86854520");
 
     }
 }
