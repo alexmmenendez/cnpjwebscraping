@@ -35,59 +35,70 @@ public class RJSintegraServiceWorker implements SintegraServiceWorker {
 
         TrustUtil.setTrustAllCerts();
 
-        response = Jsoup.connect(URL).execute();
+        int cont = 0;
 
-        cookies = response.cookies();
+        Document document = null;
 
-        Document document = response.parse();
+        do {
 
-        String viewState = document.select("[name=javax.faces.ViewState]").val();
+            if (cont > 5) {
+                return new SintegraServiceWorkerResponse(document, ResultScraping.NAO_POSSUI, null);
+            }
 
-        response = Jsoup.connect(URL)
-                .method(Connection.Method.POST)
-                .timeout(60000)
-                .cookies(cookies)
-                .data("formulario", "formulario")
-                .data("javax.faces.ViewState", viewState)
-                .data("formulario:txtCNPJ", "")
-                .data("formulario:txtCPF","")
-                .data("formulario:txtInsEst","")
-                .data("formulario:cap", "")
-                .data("javax.faces.source", "formulario:txtCNPJ")
-                .data("javax.faces.partial.event", "change")
-                .data("javax.faces.partial.execute", "formulario:txtCNPJ @component")
-                .data("javax.faces.partial.render", "@component")
-                .data("javax.faces.behavior.event", "valueChange")
-                .data("org.richfaces.ajax.component", "formulario:txtCNPJ")
-                .data("AJAX:EVENTS_COUNT", "1")
-                .data("javax.faces.partial.ajax", "true")
-                .execute();
+            try {
 
-        response = Jsoup.connect(URL)
-                .method(Connection.Method.POST)
-                .timeout(60000)
-                .cookies(cookies)
-                .data("formulario", "formulario")
-                .data("javax.faces.ViewState", viewState)
-                .data("formulario:txtCNPJ", cnpj)
-                .data("formulario:txtCPF","")
-                .data("formulario:txtInsEst","")
-                .data("formulario:cap", resolveCaptcha())
-                .data("formulario:btnPesquisar", "formulario:btnPesquisar")
-                .data("skipValidation", "false")
-                .execute();
+                response = Jsoup.connect(URL).execute();
 
-        document = response.parse();
+                cookies = response.cookies();
 
-        System.out.println(document.html());
+                document = response.parse();
 
-        String inscricaoEstadual = FormatadorString.removePontuacao(document.select("#main table[id=formulario:tabelaIE] td.rf-dt-c").get(3).text());
+                String viewState = document.select("[name=javax.faces.ViewState]").val();
 
-        if (!StringUtils.isNumeric(inscricaoEstadual)) {
-            throw new Exception("Inscricao not found");
-        }
+                response = Jsoup.connect(URL)
+                        .method(Connection.Method.POST)
+                        .timeout(60000)
+                        .cookies(cookies)
+                        .data("formulario", "formulario")
+                        .data("javax.faces.ViewState", viewState)
+                        .data("formulario:txtCNPJ", "")
+                        .data("formulario:txtCPF","")
+                        .data("formulario:txtInsEst","")
+                        .data("formulario:cap", "")
+                        .data("javax.faces.source", "formulario:txtCNPJ")
+                        .data("javax.faces.partial.event", "change")
+                        .data("javax.faces.partial.execute", "formulario:txtCNPJ @component")
+                        .data("javax.faces.partial.render", "@component")
+                        .data("javax.faces.behavior.event", "valueChange")
+                        .data("org.richfaces.ajax.component", "formulario:txtCNPJ")
+                        .data("AJAX:EVENTS_COUNT", "1")
+                        .data("javax.faces.partial.ajax", "true")
+                        .execute();
 
-        return new SintegraServiceWorkerResponse(document, ResultScraping.LOCALIZADO, inscricaoEstadual);
+                response = Jsoup.connect(URL)
+                        .method(Connection.Method.POST)
+                        .timeout(60000)
+                        .cookies(cookies)
+                        .data("formulario", "formulario")
+                        .data("javax.faces.ViewState", viewState)
+                        .data("formulario:txtCNPJ", cnpj)
+                        .data("formulario:txtCPF","")
+                        .data("formulario:txtInsEst","")
+                        .data("formulario:cap", resolveCaptcha())
+                        .data("formulario:btnPesquisar", "formulario:btnPesquisar")
+                        .data("skipValidation", "false")
+                        .execute();
+
+                document = response.parse();
+
+                String inscricaoEstadual = FormatadorString.removePontuacao(document.select("#main table[id=formulario:tabelaIE] td.rf-dt-c").get(3).text());
+
+                return new SintegraServiceWorkerResponse(document, ResultScraping.LOCALIZADO, inscricaoEstadual);
+            } catch (Exception e) {
+                cont++;
+            }
+
+        } while (true);
 
     }
 
