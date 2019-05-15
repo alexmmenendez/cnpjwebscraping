@@ -41,8 +41,6 @@ public class RJSintegraServiceWorker implements SintegraServiceWorker {
 
         do {
 
-            cont++;
-
             if (cont > 5) {
                 return new SintegraServiceWorkerResponse(document, ResultScraping.NAO_POSSUI, null);
             }
