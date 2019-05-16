@@ -1,6 +1,7 @@
 package br.com.cnpjwebscraping.service.worker.trt;
 
 import br.com.cnpjwebscraping.util.FormatadorString;
+import br.com.cnpjwebscraping.util.TrustUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -16,6 +17,8 @@ public class TRT11ServiceWorker implements TRTServiceWorker {
 
     @Override
     public String consultaNomeCompletoRazaoSocialPeloCPFCNPJ(String cpfCnpj) throws Exception {
+
+        TrustUtil.setTrustAllCerts();
 
         Connection.Response response = Jsoup.connect(URL).execute();
 
