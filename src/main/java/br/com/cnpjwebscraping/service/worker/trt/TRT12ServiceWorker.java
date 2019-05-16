@@ -27,7 +27,7 @@ public class TRT12ServiceWorker implements TRTServiceWorker {
 
         cpfCnpj = FormatadorString.removePontuacao(cpfCnpj);
 
-        String inscricao;
+        String nome;
 
         if (cpfCnpj.length() == 14) {
 
@@ -58,11 +58,11 @@ public class TRT12ServiceWorker implements TRTServiceWorker {
                     .data("javax.faces.ViewState", viewState)
                     .execute().parse();
 
-            inscricao = document.select("update[id=form:nomeReceitaCNPJ]").html();
+            nome = document.select("update[id=form:nomeReceitaCNPJ]").html();
 
-            inscricao = StringUtils.substringBetween(inscricao, "value=\"", "\"");
+            nome = StringUtils.substringBetween(nome, "value=\"", "\"");
 
-            inscricao = inscricao.trim();
+            nome = nome.trim();
 
         } else {
 
@@ -80,13 +80,13 @@ public class TRT12ServiceWorker implements TRTServiceWorker {
                     .data("javax.faces.ViewState", viewState)
                     .execute().parse();
 
-            inscricao = document.select("update[id=form:nomeReceitaCPF]").html();
+            nome = document.select("update[id=form:nomeReceitaCPF]").html();
 
-            inscricao = StringUtils.substringBetween(inscricao, "value=\"", "\"");
+            nome = StringUtils.substringBetween(nome, "value=\"", "\"");
 
-            inscricao = inscricao.trim();
+            nome = nome.trim();
         }
 
-        return inscricao;
+        return nome;
     }
 }
