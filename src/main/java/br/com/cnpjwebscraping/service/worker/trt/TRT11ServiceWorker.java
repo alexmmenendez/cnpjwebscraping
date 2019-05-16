@@ -27,7 +27,7 @@ public class TRT11ServiceWorker implements TRTServiceWorker {
 
         cpfCnpj = FormatadorString.removePontuacao(cpfCnpj);
 
-        String inscricao="";
+        String inscricao;
 
         if (cpfCnpj.length() == 14) {
 
