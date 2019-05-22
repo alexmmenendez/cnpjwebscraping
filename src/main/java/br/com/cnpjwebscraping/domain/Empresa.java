@@ -1,5 +1,6 @@
 package br.com.cnpjwebscraping.domain;
 
+import br.com.cnpjwebscraping.hardcoded.ConsultaStatus;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,38 +15,33 @@ public class Empresa {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "CNPJ")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private ConsultaStatus status;
+
+    @Column(name = "DATA_ULTIMA_ATUALIZACAO_RECEITAL_FEDERAL")
+    private Date dataUltimaAtualizacaoReceitaFederal;
+
+    @Column(name = "DATA_ULTIMA_ATUALIZACAO_SINTEGRA")
+    private Date dataUltimaAtualizacaoSintegra;
+
+    @Column(name = "CONSULTA_DATA_CRIACAO")
+    private Date consultaDataCriacao;
+
+    @Column(name = "CNPJ", unique = true)
     private String cnpj;
 
     @Column(name = "RAZAO_SOCIAL")
     private String razaoSocial;
 
-    @Column(name = "NOME_FANTASIA")
-    private String nomeFantasia;
-
     @Column(name = "DATA_ABERTURA")
     private Date dataAbertura;
-
-    @Column(name = "DATA_SITUACAO_CADASTRAL")
-    private Date dataSituacaoCadastral;
-
-    @Column(name = "DATA_SITUACAO_ESPECIAL")
-    private Date dataSituacaoEspecial;
 
     @Column(name = "SITUACAO_CADASTRAL")
     private String situacaoCadastral;
 
-    @Column(name = "PORTE")
-    private String porte;
-
     @Column(name = "PARENTESCO")
     private String parentesco;
-
-    @Column(name = "ATIVIDADE_ECONOMICA_PRINCIPAL")
-    private String atividadeEconomicaPrincipal;
-
-    @Column(name = "ATIVIDADE_ECONOMICA_SECUNDARIA")
-    private String atividadeEconomicaSecundaria;
 
     @Column(name = "NATUREZA_JURIDICA")
     private String naturezaJuridica;
@@ -65,21 +61,12 @@ public class Empresa {
     @Column(name = "BAIRRO")
     private String bairro;
 
+    @Column(name = "INSCRICAO_ESTADUAL")
+    private String inscricaoEstadual;
+
     @JoinColumn(name = "CIDADE_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_EMPRESA_CIDADE"))
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Cidade cidade;
-
-    @Column(name = "ENDERECO_ELETRONICO")
-    private String enderecoEletronico;
-
-    @Column(name = "EFR")
-    private String efr;
-
-    @Column(name = "MOTIVO_SITUACAO_CADASTRAL")
-    private String motivoSituacaoCadastral;
-
-    @Column(name = "SITUACAO_ESPECIAL")
-    private String situacaoEspecial;
 
     public Long getId() {
         return id;
@@ -105,36 +92,12 @@ public class Empresa {
         this.razaoSocial = razaoSocial;
     }
 
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-
-    public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
-    }
-
     public Date getDataAbertura() {
         return dataAbertura;
     }
 
     public void setDataAbertura(Date dataAbertura) {
         this.dataAbertura = dataAbertura;
-    }
-
-    public Date getDataSituacaoCadastral() {
-        return dataSituacaoCadastral;
-    }
-
-    public void setDataSituacaoCadastral(Date dataSituacaoCadastral) {
-        this.dataSituacaoCadastral = dataSituacaoCadastral;
-    }
-
-    public Date getDataSituacaoEspecial() {
-        return dataSituacaoEspecial;
-    }
-
-    public void setDataSituacaoEspecial(Date dataSituacaoEspecial) {
-        this.dataSituacaoEspecial = dataSituacaoEspecial;
     }
 
     public String getSituacaoCadastral() {
@@ -145,36 +108,12 @@ public class Empresa {
         this.situacaoCadastral = situacaoCadastral;
     }
 
-    public String getPorte() {
-        return porte;
-    }
-
-    public void setPorte(String porte) {
-        this.porte = porte;
-    }
-
     public String getParentesco() {
         return parentesco;
     }
 
     public void setParentesco(String parentesco) {
         this.parentesco = parentesco;
-    }
-
-    public String getAtividadeEconomicaPrincipal() {
-        return atividadeEconomicaPrincipal;
-    }
-
-    public void setAtividadeEconomicaPrincipal(String atividadeEconomicaPrincipal) {
-        this.atividadeEconomicaPrincipal = atividadeEconomicaPrincipal;
-    }
-
-    public String getAtividadeEconomicaSecundaria() {
-        return atividadeEconomicaSecundaria;
-    }
-
-    public void setAtividadeEconomicaSecundaria(String atividadeEconomicaSecundaria) {
-        this.atividadeEconomicaSecundaria = atividadeEconomicaSecundaria;
     }
 
     public String getNaturezaJuridica() {
@@ -233,35 +172,43 @@ public class Empresa {
         this.cidade = cidade;
     }
 
-    public String getEnderecoEletronico() {
-        return enderecoEletronico;
+    public String getInscricaoEstadual() {
+        return inscricaoEstadual;
     }
 
-    public void setEnderecoEletronico(String enderecoEletronico) {
-        this.enderecoEletronico = enderecoEletronico;
+    public void setInscricaoEstadual(String inscricaoEstadual) {
+        this.inscricaoEstadual = inscricaoEstadual;
     }
 
-    public String getEfr() {
-        return efr;
+    public ConsultaStatus getStatus() {
+        return status;
     }
 
-    public void setEfr(String efr) {
-        this.efr = efr;
+    public void setStatus(ConsultaStatus status) {
+        this.status = status;
     }
 
-    public String getMotivoSituacaoCadastral() {
-        return motivoSituacaoCadastral;
+    public Date getConsultaDataCriacao() {
+        return consultaDataCriacao;
     }
 
-    public void setMotivoSituacaoCadastral(String motivoSituacaoCadastral) {
-        this.motivoSituacaoCadastral = motivoSituacaoCadastral;
+    public void setConsultaDataCriacao(Date consultaDataCriacao) {
+        this.consultaDataCriacao = consultaDataCriacao;
     }
 
-    public String getSituacaoEspecial() {
-        return situacaoEspecial;
+    public Date getDataUltimaAtualizacaoReceitaFederal() {
+        return dataUltimaAtualizacaoReceitaFederal;
     }
 
-    public void setSituacaoEspecial(String situacaoEspecial) {
-        this.situacaoEspecial = situacaoEspecial;
+    public void setDataUltimaAtualizacaoReceitaFederal(Date dataUltimaAtualizacaoReceitaFederal) {
+        this.dataUltimaAtualizacaoReceitaFederal = dataUltimaAtualizacaoReceitaFederal;
+    }
+
+    public Date getDataUltimaAtualizacaoSintegra() {
+        return dataUltimaAtualizacaoSintegra;
+    }
+
+    public void setDataUltimaAtualizacaoSintegra(Date dataUltimaAtualizacaoSintegra) {
+        this.dataUltimaAtualizacaoSintegra = dataUltimaAtualizacaoSintegra;
     }
 }

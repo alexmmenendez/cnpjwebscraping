@@ -1,0 +1,61 @@
+    *, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+
+    html {    
+    padding:0px;
+    margin:0px;
+    }
+
+    body {
+    width:auto;
+    height:auto;
+    color:#000;
+    position:relative;
+    padding:0px;
+    margin:0px;
+    font-family: sans-serif;    
+    font-style:normal;
+    font-size: 10px;
+    
+    padding:0px;
+    margin:0px;
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none;
+    outline: none;
+    border: 0;
+    }
+
+    h1, h1 a, 
+    h2, h2 a, 
+    h3, h3 a, 
+    h4, h4 a, 
+    h5, h5 a, 
+    h6, h6 a {
+    padding:0px;
+    margin:0px;
+    }
+
+    a {
+    cursor:pointer;
+    text-decoration:none;
+    }
+
+    p {
+    line-height:20px;
+    margin:0px;
+    }
+
+    img {
+    border:0px;
+    margin:0px;
+    }
+
+    ul, ol {
+    list-style:none;
+    padding:0px;
+    margin:0px;
+    }

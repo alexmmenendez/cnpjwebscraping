@@ -1,0 +1,58 @@
+/*COMENTAR ONDE A CLASSE FOI INSERIDA
+
+//fragments/dashboard/table-pedidos-realizados
+
+.minha-classe-marota {
+    propriedade: valor;
+}  
+
+*/
+
+/*
+kits/novoViaPlanilha
+*/
+
+.kit-select-documents-header.success {
+    background-color: #00B98E;
+}
+.kit-select-documents-header.success .kit-select-documents-header-title {
+    color: #fff;
+}
+
+.kit-select-documents-header.info {
+    background-color: #007BA2;
+}
+.kit-select-documents-header.info .kit-select-documents-header-title {
+    color: #fff;
+}
+
+.kit-select-documents-header.danger {
+    background-color: #DF5E69;;
+}
+.kit-select-documents-header.danger .kit-select-documents-header-title {
+    color: #fff;
+}
+
+/*
+precos/novoViaPlanilha
+*/
+.documento-cell-price {
+    text-align: center;
+    margin-top: -0.7rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #707070;
+}
+
+/* Fernando Alvarez 28/08/18
+    /saas-backoffice/.../fragments/pedido/detalhe/solicitacaoDocumento.html
+    /saas-company/.../fragments/pedido/detalhe/solicitacaoDocumento.html
+*/
+.documento-box.light {
+    border-color: #A9AAAA;
+    padding-left: 40px;
+}
+.documento-box.light::before {
+    content: 'S';
+    background-color: #A9AAAA;
+}

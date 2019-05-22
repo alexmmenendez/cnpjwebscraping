@@ -4,10 +4,13 @@ import java.util.Arrays;
 
 public enum ConsultaStatus {
 	NOVA("Nova"),
-	PROCESSANDO("Processando"),
-	CONCLUIDO("Concluido"),
-	REPROCESSAR("Reprocessar"),
-	FALHA("Falha");
+	CONSULTANDO_RECEITA_FEDERAL("Consultando receita federal..."),
+	CONSULTANDO_SINTEGRA("Consultando sintegra..."),
+	CONCLUIDA_RECEITA_FEDERAL("Consulta da Receita Federal concluida"),
+	CONCLUIDA_SINTEGRA("Consulta da Sintegra concluida"),
+	FALHA_CONSULTA_RECEITA_FEDERAL("Falha"),
+	FALHA_CONSULTA_SINTEGRA("Falha"),
+	CONCLUIDO("Concluido");
 
 	private String descricao;
 

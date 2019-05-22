@@ -1,0 +1,479 @@
+.form-group{
+    margin-right: 10px;
+}
+
+label{
+    margin-bottom: 10px;
+}
+
+.filter-button{
+    margin-top: 10px;
+}
+
+.margin-top-sm{
+    margin-top: 10px;
+}
+
+.margin-top-m {
+    margin-top: 20px;
+}
+
+.margin-top-lg {
+    margin-top: 30px;
+}
+
+.margin-top-slg {
+    margin-top: 30px;
+}
+
+.uuidTooltip{
+    color: #fff;
+}
+
+.uuidTooltip p {
+    color: #fff;
+}
+
+.sem_classificacao{
+    background-color: #EF6C00;
+    color: #fff;
+    padding: 1px;
+    border-radius: 3px;
+    text-align:center;
+}
+
+.indefinida{
+    background-color: #C62828;
+    padding: 1px;
+    border-radius: 3px;
+    text-align:center;
+    text-weight: bolder;
+}
+
+.classificando{
+    border: 1px solid #EF6C00;
+    color: #EF6C00;
+    padding: 1px;
+    border-radius: 3px;
+    text-align:center;
+}
+
+.table-user tr {
+    border: 0.5px dashed #E0E0E0;
+}
+
+.detalhes {
+}
+
+.blue {
+    background-color: blue;
+}
+
+.underline {
+    border-bottom: 1px solid #9e9e9e;
+}
+
+.red {
+    background-color: red;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.green {
+    background-color: green;
+}
+
+.solicitacao {
+    background-color: #fff;
+    padding: 0;
+    margin: 0px;
+    box-shadow: 3px 2px 2px 1px #bdbdbd;
+    margin-top: 10px;
+    padding-top: 20px;
+}
+
+.solicitacao_body {
+    padding: 10px;
+    border-top: 1px dashed #bdbdbd;
+}
+
+.solicitacao_body .titulo {
+    margin-left: 10px;
+}
+
+
+.solicitacao_body h3 {
+    margin-left: 10px;
+}
+
+.solicitacao .solicitacao_head p{
+    font-size: 9pt;
+    text-align: center;
+}
+
+.solicitacao .solicitacao_head .btn-link {
+    margin-top: -20px;
+}
+
+
+
+.solicitacao_menu p {
+    font-size: 9pt;
+    text-align: center;
+}
+
+
+.solicitacao_footer .row {
+    margin-left: 20px;
+}
+
+.dados-certidao p{
+    margin: 0;
+    font-size: 11pt;
+    font-weight: 0;
+}
+
+.reprocessamento {
+
+}
+
+.reprocessamento .box {
+    border: 1px solid #bdbdbd;
+    border-radius: 10px;
+}
+
+.reprocessamento .box p {
+    margin: 2px;
+}
+
+.reprocessamento .box .number{
+    font-size: 24pt;
+}
+
+.reprocessamento .box .description{
+    font-size:  10pt;
+}
+
+.reprocessamento .box span{
+    text-align: center;
+}
+
+
+.dados-cliente p{
+    margin: 0;
+}
+
+.solicitado {
+   color: #0277bd;
+}
+
+.solicitacaoStatus {
+    font-weight: bolder;
+}
+
+
+.dados_solicitacao p{
+    margin: 0;
+}
+
+.negativa {
+    background-color:  #2e7d32;
+}
+
+.positiva {
+    background-color: #f57f17;
+}
+
+.indefinida {
+    background-color: #f44336;
+}
+
+.sem_classificacao {
+    background-color: #ffa000;
+}
+
+.nao_certidao{
+    background-color: #9e9e9e;
+}
+
+.possui_pendencia {
+   background-color: #f57f17;
+}
+
+.falha{
+    color: #d32f2f;
+    border-radius: 3px;
+    font-size: 9pt;
+    text-align: center;
+    margin-top: -14px;
+}
+
+.col-1 {
+    width: 100px;
+}
+
+.processando {
+    color: #01579b;
+}
+
+.common{
+    min-height: 20px;
+    border-radius: 3px;
+    font-size: 9pt;
+    text-align: center;
+    margin-top: -14px;
+}
+
+.certidao-situacao{
+    color: #fff;
+    min-height: 20px;
+    border-radius: 3px;
+    font-size: 9pt;
+    text-align: center;
+    margin-top: -18px;
+}
+
+.modal {
+    z-index: 99999999;
+}
+
+
+.page-item {
+    border-radius: 3px;
+    text-align: center;
+    color: #fff;
+}
+
+    width: 35px;
+    border: 1.5px solid #bdbdbd;
+}
+
+.margin-left-sm {
+    maring-left: 10px;
+}
+
+
+.modal-erro p {
+    word-wrap: break-word;
+    font-size: 8pt;
+}
+
+.gray {
+    color: #424242;
+}
+
+.btn-success {
+    color: #fff;
+}
+
+ .solicitacao_body .documento-nome {
+    color: #424242;
+    font-size: 18pt;
+    padding-left: 10px;
+}
+
+.pagination {
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 16pt;
+    margin-left: -10px;
+
+}
+
+.absolute {
+    position: absolute;
+}
+
+.filtro-container {
+    width:350px;
+    position: absolute;
+    z-index: 9999;
+    border: 1px solid #5A5789;
+    border-radius: 5px;
+    margin-top: 35px;
+    box-shadow: -13px 13px 13px -10px #bdbdbd;
+    float:right;
+}
+
+.filtro-container .form-row {
+    margin-top: 20px;
+}
+
+
+.filtro-container .title {
+    margin-left: 3px;
+}
+
+.form-quantidade-pagina {
+    margin-right: 30px;
+}
+
+.modal-emissor .row {
+    margin: 0;
+    padding: 0;
+}
+
+.modal-emissor p {
+    font-size: 10pt;
+}
+
+.modal-emissor .ultima-atualizacao {
+    color: #757575;
+    font-size: 9pt;
+    margin-top: 2px;
+}
+
+.emissor-body .documento {
+    border: 1px solid #9e9e9e;
+}
+
+
+.emissor {
+    background-color: #fff;
+    padding: 0;
+    margin: 0px;
+    box-shadow: 3px 2px 2px 1px #bdbdbd;
+    margin-top: 10px;
+}
+
+.emissor-head {
+    height: 60px;
+}
+
+.emissor-head .status{
+    font-weight: bolder;
+    margin-top: 10px;
+    color: #fff;
+    border: none;
+}
+
+.emissor-body {
+    padding: 16px;
+    padding-bottom: 25px;
+}
+
+.emissor-body p{
+    margin: 0;
+}
+
+.emissor-body .documento {
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+}
+
+.emissor-body .documento-nome {
+    font-size: 16pt;
+}
+
+.emissor-body .titulo {
+    font-size: 12pt;
+}
+
+.border {
+    1px solid #000;
+}
+
+.up {
+    background-color: #2e7d32;
+}
+
+.down {
+    background-color: #e53935;
+}
+
+.emissor_container {
+    margin-bottom: 30px;
+}
+
+.dado_utilizado {
+    border: 1px solid #9e9e9e;
+    margin-left: 10px;
+    border-radius: 3px;
+    padding: 1px;
+}
+
+.resultado {
+    margin-left: 15px;
+}
+
+.filtro-container .form-control {
+    font-size: 9pt;
+}
+
+.id_or_uuid {
+    width: 104%;
+    background-blue;
+}
+
+.qtd-paginas {
+    margin-left: 30px;
+    margin-top: 2px;
+}
+
+
+.docket-color {
+    color: #fff;
+    font-size: 12pt;
+}
+
+.navbar {
+    background-color: #5A5789;
+    box-shadow: 3px 2px 2px 1px #bdbdbd;
+}
+
+.logout{
+    border: 1px solid #4a148c;
+}
+
+.crawler-status {
+    color: #01579b;
+    border-radius: 3px;
+    font-size: 9pt;
+    text-align: center;
+    margin-top: -14px;
+}
+
+.min {
+    font-size: 8pt;
+}
+
+.modal-toggler {
+    margin-left: 10px;
+}
+
+.teste {
+    background-color: blue;
+}
+
+.form-situacao {
+    position: absolute;
+    width: 300px;
+    padding: 20px;
+}
+
+.hide {
+    display: none;
+}
+
+#reprocessar_button {
+    margin-left: 50px;
+}
+.hide {
+    display: none;
+}
+
+.popover {
+    max-width: 500px;
+}
+
+.pesquisa-campos {
+    margin-top: 25px;
+    padding: 10px;
+    font-size: 9pt;
+    opacity: 0.7;
+    border-radius: 10px;
+}

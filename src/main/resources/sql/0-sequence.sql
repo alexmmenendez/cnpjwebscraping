@@ -1,0 +1,20 @@
+DROP SEQUENCE IF EXISTS cnpjwebscraping.CIDADE_SEQUENCE;
+DROP SEQUENCE IF EXISTS cnpjwebscraping.ESTADO_SEQUENCE;
+DROP SEQUENCE IF EXISTS cnpjwebscraping.CIDADE_SEQUENCE;
+DROP SEQUENCE IF EXISTS cnpjwebscraping.ESTADO_SEQUENCE;
+
+        CREATE SEQUENCE cnpjwebscraping.CIDADE_SEQUENCE
+          INCREMENT 1
+          MINVALUE 1
+          MAXVALUE 9223372036854775807
+          START 1
+          CACHE 1;
+        --ALTER TABLE cnpjwebscraping.CIDADE_SEQUENCE
+
+        CREATE SEQUENCE cnpjwebscraping.ESTADO_SEQUENCE
+          INCREMENT 1
+          MINVALUE 1
+          MAXVALUE 9223372036854775807
+          START 1
+          CACHE 1;
+        --ALTER TABLE cnpjwebscraping.ESTADO_SEQUENCE
