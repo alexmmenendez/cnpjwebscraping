@@ -5,18 +5,14 @@ services:
       - postgres
     build: .
   postgres:
-    image: postgres
-    build:
-      context: .
-      dockerfile: Dockerfile-Postgres
+    image: postgres:9.4
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGDATA: /data/postgres
     volumes:
-       - postgres:/data/postgres
+       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+       - ./postgres:/data/postgres
     ports:
       - "5432:5432"
     restart: unless-stopped
-volumes:
-    postgres:
