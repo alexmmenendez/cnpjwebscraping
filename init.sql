@@ -1,0 +1,3 @@
+CREATE USER docker;
+CREATE DATABASE menendez;
+GRANT ALL PRIVILEGES ON DATABASE menendez TO docker;
