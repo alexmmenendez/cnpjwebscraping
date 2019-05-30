@@ -34,7 +34,15 @@ public class ScheduledTaks {
 
         for (Empresa empresa: empresas) {
 
-            empresa.setStatus(ConsultaStatus.CONSULTANDO_SINTEGRA);
+            if (empresa.getQtdReprocessar() > 5) {
+                empresas.remove(empresa);
+
+                empresa.setStatus(ConsultaStatus.FALHA);
+
+            } else {
+                empresa.setStatus(ConsultaStatus.CONSULTANDO_SINTEGRA);
+
+            }
 
             empresaService.salvar(empresa);
         }
@@ -71,6 +79,7 @@ public class ScheduledTaks {
             } catch (Exception e) {
                 e.printStackTrace();
 
+                empresa.setQtdReprocessar(empresa.getQtdReprocessar()+1);
                 empresa.setStatus(ConsultaStatus.FALHA_CONSULTA_SINTEGRA);
 
                 empresaService.salvar(empresa);
@@ -86,7 +95,15 @@ public class ScheduledTaks {
 
         for (Empresa empresa: empresas) {
 
-            empresa.setStatus(ConsultaStatus.CONSULTANDO_RECEITA_FEDERAL);
+            if (empresa.getQtdReprocessar() > 5) {
+                empresas.remove(empresa);
+
+                empresa.setStatus(ConsultaStatus.FALHA);
+
+            } else {
+                empresa.setStatus(ConsultaStatus.CONSULTANDO_RECEITA_FEDERAL);
+
+            }
 
             empresaService.salvar(empresa);
         }

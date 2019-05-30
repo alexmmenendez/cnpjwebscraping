@@ -10,6 +10,7 @@ public enum ConsultaStatus {
 	CONCLUIDA_SINTEGRA("Consulta da Sintegra concluida"),
 	FALHA_CONSULTA_RECEITA_FEDERAL("Falha"),
 	FALHA_CONSULTA_SINTEGRA("Falha"),
+	FALHA("Falha"),
 	CONCLUIDO("Concluido");
 
 	private String descricao;

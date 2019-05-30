@@ -64,6 +64,9 @@ public class Empresa {
     @Column(name = "INSCRICAO_ESTADUAL")
     private String inscricaoEstadual;
 
+    @Column(name = "QTD_REPROCESSAR")
+    private int qtdReprocessar;
+
     @JoinColumn(name = "CIDADE_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_EMPRESA_CIDADE"))
     @ManyToOne(fetch = FetchType.LAZY)
     private Cidade cidade;
@@ -210,5 +213,13 @@ public class Empresa {
 
     public void setDataUltimaAtualizacaoSintegra(Date dataUltimaAtualizacaoSintegra) {
         this.dataUltimaAtualizacaoSintegra = dataUltimaAtualizacaoSintegra;
+    }
+
+    public int getQtdReprocessar() {
+        return qtdReprocessar;
+    }
+
+    public void setQtdReprocessar(int qtdReprocessar) {
+        this.qtdReprocessar = qtdReprocessar;
     }
 }
