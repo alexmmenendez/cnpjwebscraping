@@ -34,7 +34,7 @@ public class ScheduledTaks {
 
         for (Empresa empresa: empresas) {
 
-            if (empresa.getQtdReprocessar() > 5) {
+            if (empresa.getQtdReprocessar() >= 5) {
                 empresas.remove(empresa);
 
                 empresa.setStatus(ConsultaStatus.FALHA);
@@ -95,7 +95,7 @@ public class ScheduledTaks {
 
         for (Empresa empresa: empresas) {
 
-            if (empresa.getQtdReprocessar() > 5) {
+            if (empresa.getQtdReprocessar() >= 5) {
                 empresas.remove(empresa);
 
                 empresa.setStatus(ConsultaStatus.FALHA);
@@ -122,6 +122,7 @@ public class ScheduledTaks {
             } catch (Exception e) {
                 e.printStackTrace();
 
+                empresa.setQtdReprocessar(empresa.getQtdReprocessar()+1);
                 empresa.setStatus(ConsultaStatus.FALHA_CONSULTA_RECEITA_FEDERAL);
 
                 empresaService.salvar(empresa);
