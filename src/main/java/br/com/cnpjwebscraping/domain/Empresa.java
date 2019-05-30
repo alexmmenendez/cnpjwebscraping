@@ -64,7 +64,7 @@ public class Empresa {
     @Column(name = "INSCRICAO_ESTADUAL")
     private String inscricaoEstadual;
 
-    @Column(name = "QTD_REPROCESSAR")
+    @Column(name = "QTD_REPROCESSAR", columnDefinition="int default 0")
     private int qtdReprocessar;
 
     @JoinColumn(name = "CIDADE_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_EMPRESA_CIDADE"))
