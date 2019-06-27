@@ -91,7 +91,7 @@ function fire_ajax_submit() {
         data: JSON.stringify({"cpfcnpj":cpfcnpj}),
         dataType: 'json',
         cache: false,
-        timeout: 600000,
+        timeout: 60000,
         success: function (data) {
 
             var nomeRazaoSocial = data.consulta.empresa.razaoSocial;

@@ -7,20 +7,19 @@ import br.com.cnpjwebscraping.input.wrapper.ConsultaInputWrapper;
 import br.com.cnpjwebscraping.input.wrapper.SimpleConsultaInputWrapper;
 import br.com.cnpjwebscraping.output.ResponseErrorOutput;
 import br.com.cnpjwebscraping.output.wrapper.ConsultaOutputWrapper;
+import br.com.cnpjwebscraping.service.consulta.TRTServiceWorkerManager;
 import br.com.cnpjwebscraping.service.domain.EmpresaService;
-import br.com.cnpjwebscraping.service.worker.trt.TRT02ServiceWorker;
+import br.com.cnpjwebscraping.solver.deathbycaptchav2.json.JSONObject;
 import br.com.cnpjwebscraping.util.FormatadorString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
@@ -31,7 +30,7 @@ public class ConsultaAPI {
     private EmpresaService empresaService;
 
     @Autowired
-    private TRT02ServiceWorker trt02ServiceWorker;
+    private TRTServiceWorkerManager manager;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> nova(@Valid @RequestBody ConsultaInputWrapper consultaInputWrapper, BindingResult bindingResult) {
@@ -84,7 +83,10 @@ public class ConsultaAPI {
                 empresaService.salvar(empresa);
 
                 try {
-                    String nomeRazaoSocial = trt02ServiceWorker.consultaNomeCompletoRazaoSocialPeloCPFCNPJ(cpfcnpj);
+
+                    JSONObject jsonObject = new JSONObject(manager.consultar(cpfcnpj));
+
+                    String nomeRazaoSocial = jsonObject.getString("nome");
 
                     empresa.setRazaoSocial(nomeRazaoSocial);
 
@@ -103,7 +105,10 @@ public class ConsultaAPI {
         } else {
 
             try {
-                String nome = trt02ServiceWorker.consultaNomeCompletoRazaoSocialPeloCPFCNPJ(cpfcnpj);
+
+                JSONObject jsonObject = new JSONObject(manager.consultar(cpfcnpj));
+
+                String nome = jsonObject.getString("nome");
 
                 Empresa empresa = new Empresa();
                 empresa.setRazaoSocial(nome);
